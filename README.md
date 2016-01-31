@@ -33,7 +33,7 @@ Progress
 - [x] spinner
 - [ ] switch
 - [ ] tabs
-- [ ] textfield
+- [x] textfield
 - [ ] tooltip
 - [ ] typography
 - [ ] misc.
