@@ -1,8 +1,11 @@
-let {a, Button} = MDlReact;
+const components = [
+  'MaterialButton',
+  'MaterialRipple'
+];
 
-// Write your tests here!
-// Here is an example.
-Tinytest.add('example', function (test) {
-  test.equal(true, true);
-  console.log(a, Button);
+Tinytest.add('Export', function (test) {
+  test.isNotUndefined(MDlReact, 'MDlReact is not defined');
+  for (let component of components) {
+    test.isNotUndefined(MDlReact[component], 'MDlReact.' + component + ' is not defined');
+  }
 });

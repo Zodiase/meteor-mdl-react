@@ -173,7 +173,7 @@ class MaterialRipple extends Component {
     );
   }
 }
-const self = Components.Ripple = MaterialRipple;
+const self = Components.MaterialRipple = MaterialRipple;
 
 self.cssName = 'mdl-button__ripple-container';
 self.propTypes = {
