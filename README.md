@@ -37,3 +37,7 @@ Progress
 - [ ] tooltip
 - [ ] typography
 - [ ] misc.
+
+License
+-------
+I'm using the license from [Material Design Lite](https://github.com/google/material-design-lite) where the basic logic is inherited from.
