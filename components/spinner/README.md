@@ -1,5 +1,5 @@
 MaterialSpinner
-==============
+===============
 
 All available options
 ---------------------
