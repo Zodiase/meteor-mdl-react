@@ -19,27 +19,32 @@ let { Component, PropTypes } = React;
 
 class MaterialSpinner extends Component {
 
-  constructor(props) {
-    super(props);
-  }
+  //constructor(props) {
+  //  super(props);
+  //}
 
-  componentWillMount() {}
-  componentDidMount() {}
-  componentWillUnmount() {}
+  //componentWillMount() {}
+  //componentDidMount() {}
+  //componentWillUnmount() {}
 
-  componentWillReceiveProps(nextProps) {}
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
-  }
-  componentWillUpdate(nextProps, nextState) {}
-  componentDidUpdate(prevProps, prevState) {}
+  //componentWillReceiveProps(nextProps) {}
+  //shouldComponentUpdate(nextProps, nextState) {
+  //  return true;
+  //}
+  //componentWillUpdate(nextProps, nextState) {}
+  //componentDidUpdate(prevProps, prevState) {}
   render() {
+    let {
+      className,
+      ...props
+    } = this.props;
+
     let classNames = [
       self.cssName,
       'is-upgraded'
     ];
     // Add classNames passed in.
-    let passedInClassNames = String(this.props.className).split(' ');
+    let passedInClassNames = String(className).split(' ');
     for (let name of passedInClassNames) {
       if (name.length > 0) {
         classNames.push(name);
@@ -77,101 +82,8 @@ class MaterialSpinner extends Component {
     }
 
     return (
-      <div
-        // HTML Button Attributes.
+      <div {...props}
         className={classNameString}
-        align={this.props.align}
-        // HTML Global Attributes.
-        accesskey={this.props.accesskey}
-        contenteditable={this.props.contenteditable}
-        contextmenu={this.props.contextmenu}
-        dir={this.props.dir}
-        draggable={this.props.draggable}
-        dropzone={this.props.dropzone}
-        hidden={this.props.hidden}
-        id={this.props.id}
-        lang={this.props.lang}
-        spellcheck={this.props.spellcheck}
-        style={this.props.style}
-        tabindex={this.props.tabindex}
-        title={this.props.title}
-        translate={this.props.translate}
-        // Clipboard Events.
-        onCopy={this.props.onCopy}
-        onCut={this.props.onCut}
-        onPaste={this.props.onPaste}
-        // Composition Events.
-        onCompositionEnd={this.props.onCompositionEnd}
-        onCompositionStart={this.props.onCompositionStart}
-        onCompositionUpdate={this.props.onCompositionUpdate}
-        // Keyboard Events.
-        onKeyDown={this.props.onKeyDown}
-        onKeyPress={this.props.onKeyPress}
-        onKeyUp={this.props.onKeyUp}
-        // Focus Events.
-        onFocus={this.props.onFocus}
-        onBlur={this.props.onBlur}
-        // Form Events.
-        onChange={this.props.onChange}
-        onInput={this.props.onInput}
-        onSubmit={this.props.onSubmit}
-        // Mouse Events.
-        onClick={this.props.onClick}
-        onContextMenu={this.props.onContextMenu}
-        onDoubleClick={this.props.onDoubleClick}
-        onDrag={this.props.onDrag}
-        onDragEnd={this.props.onDragEnd}
-        onDragEnter={this.props.onDragEnter}
-        onDragExit={this.props.onDragExit}
-        onDragLeave={this.props.onDragLeave}
-        onDragOver={this.props.onDragOver}
-        onDragStart={this.props.onDragStart}
-        onDrop={this.props.onDrop}
-        onMouseDown={this.props.onMouseDown}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
-        onMouseMove={this.props.onMouseMove}
-        onMouseOut={this.props.onMouseOut}
-        onMouseOver={this.props.onMouseOver}
-        onMouseUp={this.props.onMouseUp}
-        // Selection Events.
-        onSelect={this.props.onSelect}
-        // Touch Events.
-        onTouchCancel={this.props.onTouchCancel}
-        onTouchEnd={this.props.onTouchEnd}
-        onTouchMove={this.props.onTouchMove}
-        onTouchStart={this.props.onTouchStart}
-        // UI Events.
-        onScroll={this.props.onScroll}
-        // Wheel Events.
-        onWheel={this.props.onWheel}
-        // Media Events.
-        onAbort={this.props.onAbort}
-        onCanPlay={this.props.onCanPlay}
-        onCanPlayThrough={this.props.onCanPlayThrough}
-        onDurationChange={this.props.onDurationChange}
-        onEmptied={this.props.onEmptied}
-        onEncrypted={this.props.onEncrypted}
-        onEnded={this.props.onEnded}
-        onError={this.props.onError}
-        onLoadedData={this.props.onLoadedData}
-        onLoadedMetadata={this.props.onLoadedMetadata}
-        onLoadStart={this.props.onLoadStart}
-        onPause={this.props.onPause}
-        onPlay={this.props.onPlay}
-        onPlaying={this.props.onPlaying}
-        onProgress={this.props.onProgress}
-        onRateChange={this.props.onRateChange}
-        onSeeked={this.props.onSeeked}
-        onSeeking={this.props.onSeeking}
-        onStalled={this.props.onStalled}
-        onSuspend={this.props.onSuspend}
-        onTimeUpdate={this.props.onTimeUpdate}
-        onVolumeChange={this.props.onVolumeChange}
-        onWaiting={this.props.onWaiting}
-        // Image Events.
-        onLoad={this.props.onLoad}
-        onError={this.props.onError}
         // Save reference.
         ref={(ref) => this.element_ = ref}
       >{layers}</div>
@@ -182,7 +94,7 @@ const self = Components.MaterialSpinner = MaterialSpinner;
 
 self.cssName = 'mdl-spinner';
 self.propTypes = {
-  "className": PropTypes.string
+  "className": PropTypes.string.isRequired
 };
 self.defaultProps = {
   "className": ""

@@ -125,12 +125,16 @@ class MaterialRipple extends Component {
     }
   };
 
+  _getStateFromProps(props) {
+    return {
+      "recentering": props.center
+    };
+  }
+
   constructor(props) {
     super(props);
 
-    this.state = {
-      "recentering": props.center
-    };
+    this.state = this._getStateFromProps(props);
 
     this.element_ = null;
     this.frameCount_ = 0;
@@ -145,22 +149,20 @@ class MaterialRipple extends Component {
     this.boundUpHandler = this.upHandler_.bind(this);
   }
 
-  componentWillMount() {}
-  componentDidMount() {}
+  //componentWillMount() {}
+  //componentDidMount() {}
   componentWillUnmount() {
     this.unbindElement();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      "recentering": nextProps.center
-    });
+    this.setState(this._getStateFromProps(nextProps));
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
-  }
-  componentWillUpdate(nextProps, nextState) {}
-  componentDidUpdate(prevProps, prevState) {}
+  //shouldComponentUpdate(nextProps, nextState) {
+  //  return true;
+  //}
+  //componentWillUpdate(nextProps, nextState) {}
+  //componentDidUpdate(prevProps, prevState) {}
   render() {
     return (
       <span className={self.cssName}>
@@ -177,7 +179,7 @@ const self = Components.MaterialRipple = MaterialRipple;
 
 self.cssName = 'mdl-button__ripple-container';
 self.propTypes = {
-  "center": PropTypes.bool
+  "center": PropTypes.bool.isRequired
 };
 self.defaultProps = {
   "center": false

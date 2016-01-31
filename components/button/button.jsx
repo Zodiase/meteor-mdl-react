@@ -26,7 +26,7 @@ class MaterialButton extends Component {
     this.boundRippleBlurHandler = this.blurHandler_.bind(this);
   }
 
-  componentWillMount() {}
+  //componentWillMount() {}
   componentDidMount() {
     this._upgrade();
   }
@@ -34,10 +34,10 @@ class MaterialButton extends Component {
     this._downgrade();
   }
 
-  componentWillReceiveProps(nextProps) {}
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
-  }
+  //componentWillReceiveProps(nextProps) {}
+  //shouldComponentUpdate(nextProps, nextState) {
+  //  return true;
+  //}
   componentWillUpdate(nextProps, nextState) {
     this._downgrade();
   }
