@@ -193,10 +193,12 @@ const self = Components.MaterialButton = MaterialButton;
 
 self.cssName = 'mdl-button';
 self.propTypes = {
+  "className": PropTypes.string,
   "disabled": PropTypes.bool,
   "children": PropTypes.any.isRequired
 };
 self.defaultProps = {
+  "className": "",
   "disabled": false
 };
 self.classNames = {

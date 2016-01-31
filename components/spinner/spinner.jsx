@@ -181,8 +181,12 @@ class MaterialSpinner extends Component {
 const self = Components.MaterialSpinner = MaterialSpinner;
 
 self.cssName = 'mdl-spinner';
-self.propTypes = {};
-self.defaultProps = {};
+self.propTypes = {
+  "className": PropTypes.string
+};
+self.defaultProps = {
+  "className": ""
+};
 self.classNames = {
   "active": "is-active",
   "singleColor": "mdl-spinner--single-color"
