@@ -8,7 +8,7 @@ var npmPath = Npm.require('path');
 
 Package.describe({
   name: 'zodiase:mdl-react',
-  version: '0.0.2',
+  version: '0.0.3',
   summary: 'Material Design Lite implemented with React.',
   git: 'https://github.com/Zodiase/meteor-mdl-react.git',
   documentation: 'README.md'
