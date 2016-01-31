@@ -1,6 +1,7 @@
 const components = [
   'MaterialButton',
-  'MaterialRipple'
+  'MaterialRipple',
+  'MaterialSpinner'
 ];
 
 Tinytest.add('Export', function (test) {

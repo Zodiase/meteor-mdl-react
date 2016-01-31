@@ -2,12 +2,12 @@ var srcPath = 'components';
 var ecmaPkg = 'universe:ecmascript@0.6.7_1';
 var platform = ['client', 'server'];
 
-var modules = ['button', 'ripple'];
+var modules = ['button', 'ripple', 'spinner'];
 var npmPath = Npm.require('path');
 
 Package.describe({
   name: 'zodiase:mdl-react',
-  version: '0.0.1',
+  version: '0.0.2',
   summary: 'Material Design Lite implemented with React.',
   git: 'https://github.com/Zodiase/meteor-mdl-react.git',
   documentation: 'README.md'

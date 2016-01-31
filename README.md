@@ -30,7 +30,7 @@ Progress
 - [x] ripple
 - [ ] shadow
 - [ ] slider
-- [ ] spinner
+- [x] spinner
 - [ ] switch
 - [ ] tabs
 - [ ] textfield
