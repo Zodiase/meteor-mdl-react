@@ -21,7 +21,7 @@ Progress
 - [ ] footer
 - [ ] grid
 - [ ] icon-toggle
-- [ ] layout
+- [x] layout (tab not ready yet)
 - [ ] menu
 - [ ] palette
 - [ ] progress

@@ -1,5 +1,6 @@
 const components = [
   'MaterialButton',
+  'MaterialLayout',
   'MaterialRipple',
   'MaterialSpinner',
   'MaterialTextfield'
