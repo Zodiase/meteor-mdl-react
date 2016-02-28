@@ -17,6 +17,11 @@
 
 let { Component, PropTypes } = React;
 
+/**
+ * Implemented since 1.0.6.
+ * No changes from 1.0.6 to 1.1.1.
+ */
+
 class MaterialSpinner extends Component {
 
   //constructor(props) {
