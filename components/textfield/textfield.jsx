@@ -26,6 +26,7 @@ class MaterialTextfield extends Component {
         this.input_.addEventListener('input', this.boundUpdateClassesHandler);
         this.input_.addEventListener('focus', this.boundFocusHandler);
         this.input_.addEventListener('blur', this.boundBlurHandler);
+        this.input_.addEventListener('reset', this.boundResetHandler);
         if (this.state.maxRows !== this.Constant_.NO_MAX_ROWS) {
           // TODO: This should handle pasting multi line text.
           // Currently doesn't.
@@ -43,6 +44,7 @@ class MaterialTextfield extends Component {
         this.input_.removeEventListener('input', this.boundUpdateClassesHandler);
         this.input_.removeEventListener('focus', this.boundFocusHandler);
         this.input_.removeEventListener('blur', this.boundBlurHandler);
+        this.input_.removeEventListener('reset', this.boundResetHandler);
         this.input_.removeEventListener('keydown', this.boundKeyDownHandler);
       }
     }
@@ -68,6 +70,7 @@ class MaterialTextfield extends Component {
     this.boundUpdateClassesHandler = this.updateClasses_.bind(this);
     this.boundFocusHandler = this.onFocus_.bind(this);
     this.boundBlurHandler = this.onBlur_.bind(this);
+    this.boundResetHandler = this.onReset_.bind(this);
     // TODO: This should handle pasting multi line text.
     // Currently doesn't.
     this.boundKeyDownHandler = this.onKeyDown_.bind(this);
@@ -76,6 +79,10 @@ class MaterialTextfield extends Component {
   //componentWillMount() {}
   componentDidMount() {
     this._upgrade();
+    if (this.props.autoFocus) {
+      this.element_.focus();
+      this.checkFocus();
+    }
   }
   componentWillUnmount() {
     this._downgrade();
@@ -220,6 +227,7 @@ self.propTypes = {
   "pattern": PropTypes.string,
   "errorMessage": PropTypes.string,
   "icon": PropTypes.string,
+  "autoFocus": PropTypes.bool,
   "maxRows": PropTypes.number,
   "maxLength": PropTypes.string,
   "onChange": PropTypes.func.isRequired,
@@ -230,7 +238,6 @@ self.defaultProps = {
   "type": "text",
   "maxRows": -1,
   "onChange": function(event) {
-    console.log('textfield onchange');
     this.setState({
       "inputValue": event.target.value
     });
@@ -313,6 +320,16 @@ MaterialTextfield.prototype.onBlur_ = function(event) {
 };
 
 /**
+ * Handle reset event from out side.
+ *
+ * @param {Event} event The event that fired.
+ * @private
+ */
+MaterialTextfield.prototype.onReset_ = function(event) {
+  this.updateClasses_();
+};
+
+/**
  * Handle class updates.
  *
  * @private
@@ -321,6 +338,7 @@ MaterialTextfield.prototype.updateClasses_ = function() {
   this.checkDisabled();
   this.checkValidity();
   this.checkDirty();
+  this.checkFocus();
 };
 
 // Public methods.
@@ -339,6 +357,21 @@ MaterialTextfield.prototype.checkDisabled = function() {
 };
 MaterialTextfield.prototype['checkDisabled'] =
     MaterialTextfield.prototype.checkDisabled;
+
+/**
+* Check the focus state and update field accordingly.
+*
+* @public
+*/
+MaterialTextfield.prototype.checkFocus = function() {
+  if (Boolean(this.element_.querySelector(':focus'))) {
+    this.element_.classList.add(this.CssClasses_.IS_FOCUSED);
+  } else {
+    this.element_.classList.remove(this.CssClasses_.IS_FOCUSED);
+  }
+};
+MaterialTextfield.prototype['checkFocus'] =
+  MaterialTextfield.prototype.checkFocus;
 
 /**
  * Check the validity state and update field accordingly.
