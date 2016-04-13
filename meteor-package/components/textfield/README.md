@@ -5,21 +5,27 @@ All available options
 ---------------------
 ```HTML
 <MaterialTextfield
-    id={id}
-    className={extraClassnames}
-    readOnly={isReadOnly}
-    disabled={isDisabled}
-    type={type}
-    multiline={multiline}
-    label={label}
-    pattern={pattern}
-    errorMessage={errorMessage}
-    floatingLabel={floatingLabel}
-    expandable={isExpandable}
-    icon={icon}
+    {String} id
+    {String} [className=""]
+    {Boolean} [readOnly=false]
+    {Boolean} [disabled=false]
+    {String} [type="text"]
+    {Boolean} [multiline=false]
+    {String} [label=""]
+    {String} [pattern=""]
+    {String} [errorMessage=""]
+    {Boolean} [floatingLabel=false]
+    {Boolean} [expandable=false]
+    {String} [icon=""]
 >
 Content
 </MaterialTextfield>
+```
+
+Styling (SASS)
+--------------
+```SCSS
+@import "{zodiase:mdl-react}/components/textfield/textfield";
 ```
 
 Examples

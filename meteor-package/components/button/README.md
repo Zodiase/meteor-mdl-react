@@ -5,17 +5,25 @@ All available options
 ---------------------
 ```HTML
 <MaterialButton
-    className={extraClassnames}
-    disabled={isDisabled}
-    colored={isColored}
-    raised={isRaised}
-    primary={isPrimary}
-    accent={isAccent}
-    fab={isFab}
-    icon={isIcon}
+    {String} [className=""]
+    {Boolean} [disabled=false]
+    {Boolean} [colored=false]
+    {Boolean} [raised=false]
+    {Boolean} [primary=false]
+    {Boolean} [accent=false]
+    {Boolean} [fab=false]
+    {Boolean} [icon=false]
 >
 Content
 </MaterialButton>
+```
+
+Styling (SASS)
+--------------
+```SCSS
+@import "{zodiase:mdl-react}/components/button/button";
+// If ripple effect is needed, also need to import it.
+@import "{zodiase:mdl-react}/components/ripple/ripple";
 ```
 
 Examples

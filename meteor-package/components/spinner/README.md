@@ -5,10 +5,16 @@ All available options
 ---------------------
 ```HTML
 <MaterialSpinner
-    className={extraClassnames}
-    active={isActive}
-    singleColor={isSingleColor}
+    {String} [className=""]
+    {Boolean} [active=false]
+    {Boolean} [singleColor=false]
 />
+```
+
+Styling (SASS)
+--------------
+```SCSS
+@import "{zodiase:mdl-react}/components/spinner/spinner";
 ```
 
 Examples
