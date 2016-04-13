@@ -6,13 +6,9 @@ var modules = ['button', 'layout', 'ripple', 'spinner', 'textfield'];
 
 var npmPath = Npm.require('path');
 
-Npm.depends({
-  react: '15.0.0'
-});
-
 Package.describe({
   name: 'zodiase:mdl-react',
-  version: '0.0.5',
+  version: '0.0.6',
   summary: 'Material Design Lite implemented with React.',
   git: 'https://github.com/Zodiase/meteor-mdl-react.git',
   documentation: 'README.md'
@@ -22,6 +18,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.3.1');
   api.use([
     'ecmascript',
+    'react@15.0.0',
     'fourseven:scss@3.4.2'
   ]);
 
