@@ -5,7 +5,9 @@ Basic logic is inherited from [Material Design Lite](https://github.com/google/m
 
 **I'm slowly working on implementing these components when I need to use them in the Meteor apps I'm working on. So the order and priority of implementation is totally up to me. However if you are in need of certain components, let me know in the issues and I'll see if I can make it happen.**
 
-Currently working on implementations based on Material Design Lite version 1.1.1.
+~~Currently working on implementations based on Material Design Lite version 1.1.1.~~
+
+The setup of this project actually allows me to have different versions for different components. So check each component to find out its version.
 
 Can work together with Meteor package `zodiase:mdl` in case a component you are looking for has not been implemented yet.
 
