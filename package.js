@@ -40,7 +40,7 @@ Package.onUse(function(api) {
     api.addFiles(jsxFilePath, platform);
   }
 
-  api.addFiles('index.js', platform);
+  api.addFiles('export.js', platform);
 });
 
 Package.onTest(function(api) {

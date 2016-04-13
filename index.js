@@ -1,1 +1,0 @@
-MDlReact = Components;
