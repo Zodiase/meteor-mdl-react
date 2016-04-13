@@ -43,16 +43,11 @@ Package.onUse(function(api) {
   api.addFiles('export.js', platform);
 });
 
+/*
 Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');
   api.use('zodiase:mdl-react');
   api.addFiles('tests.js');
 });
-
-function prepandPathToFiles(files, path) {
-  var npmPath = Npm.require('path');
-  return files.map(function(file) {
-    return npmPath.join(path, file);
-  });
-}
+*/
