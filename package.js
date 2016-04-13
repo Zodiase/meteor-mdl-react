@@ -12,7 +12,7 @@ Npm.depends({
 
 Package.describe({
   name: 'zodiase:mdl-react',
-  version: '0.0.4',
+  version: '0.0.5',
   summary: 'Material Design Lite implemented with React.',
   git: 'https://github.com/Zodiase/meteor-mdl-react.git',
   documentation: 'README.md'
