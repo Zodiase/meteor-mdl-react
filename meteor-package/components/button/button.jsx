@@ -138,12 +138,14 @@ self.propTypes = {
     'button', 'submit', 'reset'
   ]).isRequired,
   "disabled": PropTypes.bool.isRequired,
+  "ripple": PropTypes.bool.isRequired,
   "children": PropTypes.any.isRequired
 };
 self.defaultProps = {
   "className": "",
   "type": "button",
-  "disabled": false
+  "disabled": false,
+  "ripple": false
 };
 self.classNames = {
   "colored": "mdl-button--colored",
