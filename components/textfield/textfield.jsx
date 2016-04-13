@@ -17,6 +17,12 @@
 
 let { Component, PropTypes } = React;
 
+/**
+ * MaterialTextfield
+ * @version 1.1.1
+ * @since 1.0.6
+ */
+
 class MaterialTextfield extends Component {
 
   _upgrade() {

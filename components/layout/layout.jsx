@@ -18,8 +18,9 @@
 let { Component, PropTypes } = React;
 
 /**
- * Implemented since 1.0.6.
- * Upgraded to 1.1.1.
+ * MaterialLayout
+ * @version 1.1.1
+ * @since 1.0.6
  */
 
 class MaterialLayout extends Component {

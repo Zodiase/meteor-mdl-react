@@ -18,8 +18,9 @@
 let { Component, PropTypes } = React;
 
 /**
- * Implemented since 1.0.6.
- * No changes from 1.0.6 to 1.1.1.
+ * MaterialButton
+ * @version 1.1.1
+ * @since 1.0.6
  */
 
 class MaterialButton extends Component {
