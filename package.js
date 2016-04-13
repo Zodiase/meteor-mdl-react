@@ -6,6 +6,10 @@ var modules = ['button', 'layout', 'ripple', 'spinner', 'textfield'];
 
 var npmPath = Npm.require('path');
 
+Npm.depends({
+  react: '15.0.0'
+});
+
 Package.describe({
   name: 'zodiase:mdl-react',
   version: '0.0.4',
@@ -15,11 +19,10 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.2.1');
+  api.versionsFrom('1.3.1');
   api.use([
     'ecmascript',
-    'react@0.14.3',
-    'fourseven:scss@3.4.1'
+    'fourseven:scss@3.4.2'
   ]);
 
   api.export('MDlReact', platform);
