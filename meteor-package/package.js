@@ -1,5 +1,4 @@
 var srcPath = 'components';
-var ecmaPkg = 'universe:ecmascript@0.6.7_1';
 var platform = ['client', 'server'];
 
 var modules = ['button', 'layout', 'ripple', 'spinner', 'textfield'];
