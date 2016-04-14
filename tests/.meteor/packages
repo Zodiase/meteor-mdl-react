@@ -21,3 +21,4 @@ insecure                # Allow all DB writes from clients (for prototyping)
 zodiase:mdl-react
 practicalmeteor:mocha
 practicalmeteor:chai
+fourseven:scss
