@@ -34,7 +34,7 @@ Package.onUse(function(api) {
     sassFilePath = npmPath.join(srcPath, dirname, sassFilename);
     jsxFilePath = npmPath.join(srcPath, dirname, jsxFilename);
     // Add sass files to be imported by users.
-    api.addFiles(sassFilePath, platform, {isImport: true});
+    api.addFiles(sassFilePath, 'server', {isImport: true});
     // Add JSX file.
     api.addFiles(jsxFilePath, platform);
   }
