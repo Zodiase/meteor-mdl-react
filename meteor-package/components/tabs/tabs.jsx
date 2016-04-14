@@ -24,18 +24,131 @@
  */
 
 class MaterialTabs extends Component {
+
+  _joinClassNames(extraBase, currentClassName = '', extraMore = []) {
+    return [
+      ...extraBase,
+      ...(String(currentClassName).split(' ')),
+      ...extraMore
+    ].filter((name) => String(name).length > 0).join(' ');
+  }
+
+  _getStateFromProps(props) {
+    // Set the active tab ID by the default tab ID.
+    return {
+      activeTabId: props.defaultTabId
+    };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = this._getStateFromProps(props);
+  }
+
   render() {
+    let {
+      className,
+      children,
+      ...props
+    } = this.props;
+
+    // Ensure children is an array.
+    if (!Array.isArray(children)) {
+      children = [children];
+    }
 
     // Reset references.
+    this.element_ = null;
     this.tabBar_ = null;
     this.tabs_ = [];
     this.panels = [];
 
+    let flaggedClassNames = [];
+    // Add flag classNames.
+    for (let name of self.flagClassNames) {
+      if (this.props[name]) {
+        flaggedClassNames.push(self.classNames[name]);
+      }
+    }
 
+    let classNameString = this._joinClassNames([self.cssName], className, flaggedClassNames);
+
+    // Pick out the tab bar, tabs, tab panels and leave the rest.
+    let tabBar = null,
+        panels = [];
+    children = children.filter(function (element) {
+      switch (element.type) {
+        case self.TabBar:
+          tabBar = element;
+          return false;
+          break;
+        case self.Panel:
+          panels.push(element);
+          return false;
+          break;
+        case self.Tab:
+          //! Warn about putting tabs outside of tab bar.
+          return true;
+          break;
+        default:
+          return true;
+          break;
+      }
+    });
+    console.info('filtered children', children);
+
+    // Tab bar must exist.
+    if (!tabBar) {
+      throw new Error('Can not find the tab bar.');
+    }
+    let {children: tabBarChildren, ...tabBarProps} = {...tabBar.props};
+    tabBarProps.className = this._joinClassNames([this.CssClasses_.TABBAR_CLASS], tabBarProps.className || '');
+    // Replace tabs placeholders with real tabs.
+    // Do not change order.
+    tabBarChildren = tabBarChildren.map((element, index) => {
+      switch (element.type) {
+        case self.TabBar:
+          //! Warn about putting tab bar inside of tab bar.
+          return element;
+          break;
+        case self.Panel:
+          //! Warn about putting tab panel inside of tab bar.
+          return element;
+          break;
+        case self.Tab:
+          //! Create the real tab.
+          let {
+            ...tabProps
+          } = element.props;
+          tabProps.className = this._joinClassNames([this.CssClasses_.TAB_CLASS], tabProps.className);
+          const realTab = (
+            <a {...tabProps}
+              key={'child_' + index}
+              href="#"
+            />
+          );
+          return realTab;
+          break;
+        default:
+          return element;
+          break;
+      }
+    });
+
+    tabBar = (
+      <div {...tabBarProps}
+        ref={(ref) => this.tabBar_ = ref}
+      >{tabBarChildren}</div>
+    );
 
     //!
     return (
-      <div>Tabs</div>
+      <div
+        key="tabs"
+        className={classNameString}
+        ref={(ref) => this.element_ = ref}
+      >{tabBar}{panels}</div>
     );
   }
 }
@@ -47,22 +160,23 @@ self.propTypes = {
   "children": PropTypes.any.isRequired
 };
 self.defaultProps = {
-  "className": ""
+  "className": "",
+  "children": []
 };
-/*
 self.classNames = {
+/*
   "colored": "mdl-button--colored",
   "raised": "mdl-button--raised",
   "primary": "mdl-button--primary",
   "accent": "mdl-button--accent",
   "fab": "mdl-button--fab",
   "icon": "mdl-button--icon"
+*/
 };
-self.flagClassNames = ["colored", "raised", "primary", "accent", "fab", "icon"];
+self.flagClassNames = [/* "colored", "raised", "primary", "accent", "fab", "icon" */];
 for (let flagClassName of self.flagClassNames) {
   self.propTypes[flagClassName] = PropTypes.bool;
 }
-*/
 
 // Code from MDL.
 
@@ -85,6 +199,7 @@ MaterialTabs.prototype.Constant_ = {
  * @private
  */
 MaterialTabs.prototype.CssClasses_ = {
+  TABBAR_CLASS: 'mdl-tabs__tab-bar',
   TAB_CLASS: 'mdl-tabs__tab',
   PANEL_CLASS: 'mdl-tabs__panel',
   ACTIVE_CLASS: 'is-active',
@@ -150,6 +265,10 @@ MaterialTabs.prototype.init = function() {
     this.initTabs_();
   }
 };
+
+// Placeholder. Does nothing. Real magic happens in MaterialTabs.
+class TabBar extends Component {render() {return null;}}
+self.TabBar = TabBar;
 
 // Placeholder. Does nothing. Real magic happens in MaterialTabs.
 class Tab extends Component {render() {return null;}}

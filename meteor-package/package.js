@@ -1,7 +1,7 @@
 var srcPath = 'components';
 var platform = ['client', 'server'];
 
-var modules = ['button', 'layout', 'ripple', 'spinner', 'textfield'];
+var modules = ['button', 'layout', 'ripple', 'spinner', 'tabs', 'textfield'];
 
 var npmPath = Npm.require('path');
 
