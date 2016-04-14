@@ -7,6 +7,7 @@ All available options
 <MaterialButton
     {String} [className=""]
     {Boolean} [disabled=false]
+    {Boolean} [ripple=false]
     {Boolean} [colored=false]
     {Boolean} [raised=false]
     {Boolean} [primary=false]
