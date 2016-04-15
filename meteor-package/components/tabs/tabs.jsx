@@ -30,7 +30,7 @@ class MaterialTabs extends Component {
       // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/tabs/tabs.js#L142}
       $(this.tabBar_).on('click', `.${this.CssClasses_.TAB_CLASS}`, this.boundTabClickHandler); //x
 
-      const tabIndices = Object.keys(this.tabs_);
+      const tabIndices = Object.keys(this.ripples_);
       while (tabIndices.length > 0) {
         const tabIndex = tabIndices.shift();
         this.ripples_[tabIndex].bindElement(this.tabs_[tabIndex]); //x
@@ -42,7 +42,7 @@ class MaterialTabs extends Component {
     if (this.element_ && this.tabBar_) {
       $(this.tabBar_).off('click', `.${this.CssClasses_.TAB_CLASS}`, this.boundTabClickHandler); //x
 
-      const tabIndices = Object.keys(this.tabs_);
+      const tabIndices = Object.keys(this.ripples_);
       while (tabIndices.length > 0) {
         const tabIndex = tabIndices.shift();
         this.ripples_[tabIndex].unbindElement(); //x
