@@ -72,6 +72,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.3.1');
   api.use([
     'ecmascript',
+    'jquery',
     'react@15.0.0',
     'fourseven:scss@3.4.2'
   ]);
