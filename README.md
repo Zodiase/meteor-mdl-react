@@ -15,29 +15,29 @@ Please see the README documents under each component to learn how to use them.
 
 Progress
 --------
-- [ ] badge
+- [x] badge
 - [x] button
-- [ ] card
+- [x] card
 - [ ] checkbox
 - [ ] data-table
-- [ ] footer
-- [ ] grid
+- [x] footer
+- [x] grid
 - [ ] icon-toggle
 - [x] layout (tab not ready yet)
 - [ ] menu
-- [ ] palette
+- [x] palette
 - [ ] progress
 - [ ] radio
-- [ ] resets
+- [x] resets
 - [x] ripple
-- [ ] shadow
+- [x] shadow
 - [ ] slider
 - [x] spinner
 - [ ] switch
 - [ ] tabs
 - [x] textfield
 - [ ] tooltip
-- [ ] typography
+- [x] typography
 - [ ] misc.
 
 License
