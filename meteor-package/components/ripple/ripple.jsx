@@ -19,25 +19,42 @@ let { Component, PropTypes } = React;
 
 /**
  * MaterialRipple
- * @version 1.1.1
+ * @version 1.1.3
  * @since 1.0.6
+ * @see {@link https://github.com/jasonmayes/mdl-component-design-pattern}
  */
-
 class MaterialRipple extends Component {
 
   /**
    * Connect this ripple to an external element.
    * @param {HTMLElement} element
+   * @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/ripple/ripple.js#L137}
    */
   bindElement(element) {
-    if (!this.element_) {
-      this.element_ = element;
-      this.element_.addEventListener('mousedown', this.boundDownHandler);
-      this.element_.addEventListener('touchstart', this.boundDownHandler);
-      this.element_.addEventListener('mouseup', this.boundUpHandler);
-      this.element_.addEventListener('mouseleave', this.boundUpHandler);
-      this.element_.addEventListener('touchend', this.boundUpHandler);
-      this.element_.addEventListener('blur', this.boundUpHandler);
+    if (!(element instanceof HTMLElement)) {
+      throw new TypeError('Ripple can only bind to a HTMLElement.');
+    }
+
+    if (!element.classList.contains(this.CssClasses_.RIPPLE_EFFECT_IGNORE_EVENTS)) {
+      if (!this.element_) {
+        this.element_ = element;
+
+        this.frameCount_ = 0;
+        this.rippleSize_ = 0;
+        this.x_ = 0;
+        this.y_ = 0;
+        // Touch start produces a compat mouse down event, which would cause a
+        // second ripples. To avoid that, we use this property to ignore the first
+        // mouse down after a touch start.
+        this.ignoringMouseDown_ = false;
+
+        this.element_.addEventListener('mousedown', this.boundDownHandler);
+        this.element_.addEventListener('touchstart', this.boundDownHandler);
+        this.element_.addEventListener('mouseup', this.boundUpHandler);
+        this.element_.addEventListener('mouseleave', this.boundUpHandler);
+        this.element_.addEventListener('touchend', this.boundUpHandler);
+        this.element_.addEventListener('blur', this.boundUpHandler);
+      }
     }
   }
 
@@ -59,7 +76,7 @@ class MaterialRipple extends Component {
   /**
    * Getter for frameCount_.
    * @return {number} the frame count.
-   * @fromMDL
+   * @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/ripple/ripple.js#L167}
    */
   getFrameCount() {
     return this.frameCount_;
@@ -68,7 +85,7 @@ class MaterialRipple extends Component {
   /**
    * Setter for frameCount_.
    * @param {number} fC the frame count.
-   * @fromMDL
+   * @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/ripple/ripple.js#L175}
    */
   setFrameCount(fC) {
     this.frameCount_ = fC;
@@ -77,7 +94,7 @@ class MaterialRipple extends Component {
   /**
    * Getter for rippleElement_.
    * @return {Element} the ripple element.
-   * @fromMDL
+   * @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/ripple/ripple.js#L183}
    */
   getRippleElement() {
     return this.rippleElement_;
@@ -87,7 +104,7 @@ class MaterialRipple extends Component {
    * Sets the ripple X and Y coordinates.
    * @param  {number} newX the new X coordinate
    * @param  {number} newY the new Y coordinate
-   * @fromMDL
+   * @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/ripple/ripple.js#L191}
    */
   setRippleXY(newX, newY) {
     this.x_ = newX;
@@ -97,7 +114,7 @@ class MaterialRipple extends Component {
   /**
    * Sets the ripple styles.
    * @param  {boolean} start whether or not this is the start frame.
-   * @fromMDL
+   * @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/ripple/ripple.js#L201}
    */
   setRippleStyles(start) {
     if (this.rippleElement_ !== null) {
@@ -134,7 +151,7 @@ class MaterialRipple extends Component {
 
   /**
    * Handles an animation frame.
-   * @fromMDL
+   * @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/ripple/ripple.js#L238}
    */
   animFrameHandler() {
     if (this.frameCount_-- > 0) {
@@ -156,14 +173,7 @@ class MaterialRipple extends Component {
     this.state = this._getStateFromProps(props);
 
     this.element_ = null;
-    this.frameCount_ = 0;
-    this.rippleSize_ = 0;
-    this.x_ = 0;
-    this.y_ = 0;
-    // Touch start produces a compat mouse down event, which would cause a
-    // second ripples. To avoid that, we use this property to ignore the first
-    // mouse down after a touch start.
-    this.ignoringMouseDown_ = false;
+
     this.boundDownHandler = this.downHandler_.bind(this);
     this.boundUpHandler = this.upHandler_.bind(this);
   }
@@ -184,7 +194,7 @@ class MaterialRipple extends Component {
   //componentDidUpdate(prevProps, prevState) {}
   render() {
     return (
-      <span className={self.cssName}>
+      <span className={this.props.cssName || self.cssName}>
         <span
           className={this.CssClasses_.RIPPLE}
           onMouseUp={this.props.onMouseUp}
@@ -198,6 +208,7 @@ const self = Components.MaterialRipple = MaterialRipple;
 
 self.cssName = 'mdl-button__ripple-container';
 self.propTypes = {
+  "cssName": PropTypes.string,
   "center": PropTypes.bool.isRequired
 };
 self.defaultProps = {
