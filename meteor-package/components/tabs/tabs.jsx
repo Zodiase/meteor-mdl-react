@@ -177,6 +177,11 @@ class MaterialTabs extends Component {
                   children,
                   ...tabProps
                 } = element.props;
+
+                if (!tabId) {
+                  throw new RangeError('A tab must have a tab ID.');
+                }
+
                 let baseClasses = [this.CssClasses_.TAB_CLASS];
                 if (tabId === this.state.activeTabId) {
                   baseClasses.push(this.CssClasses_.ACTIVE_CLASS);
@@ -225,6 +230,11 @@ class MaterialTabs extends Component {
             children: panelChildren,
             ...panelProps
           } = element.props;
+
+          if (!tabId) {
+            throw new RangeError('A tab panel must have a tab ID.');
+          }
+
           let baseClasses = [this.CssClasses_.PANEL_CLASS];
           if (tabId === this.state.activeTabId) {
             baseClasses.push(this.CssClasses_.ACTIVE_CLASS);
