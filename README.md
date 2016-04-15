@@ -15,29 +15,73 @@ Please see the README documents under each component to learn how to use them.
 
 Progress
 --------
-- [x] badge
+- [ ] badge
+    - [x] Styling
+    - [ ] Component
 - [x] button
-- [x] card
+    - [x] Styling
+    - [x] Component
+- [ ] card
+    - [x] Styling
+    - [ ] Component
 - [ ] checkbox
+    - [ ] Styling
+    - [ ] Component
 - [ ] data-table
-- [x] footer
-- [x] grid
+    - [ ] Styling
+    - [ ] Component
+- [ ] footer
+    - [x] Styling
+    - [ ] Component
+- [ ] grid
+    - [x] Styling
+    - [ ] Component
 - [ ] icon-toggle
-- [x] layout (tab not ready yet)
+    - [ ] Styling
+    - [ ] Component
+- [ ] layout
+    - [x] Styling
+    - [ ] Component
+        - [x] core
+        - [ ] tabs
 - [ ] menu
+    - [ ] Styling
+    - [ ] Component
 - [x] palette
+    - [x] Styling
 - [ ] progress
+    - [ ] Styling
+    - [ ] Component
 - [ ] radio
+    - [ ] Styling
+    - [ ] Component
 - [x] resets
+    - [x] Styling
 - [x] ripple
+    - [x] Styling
+    - [x] Component
 - [x] shadow
+    - [x] Styling
 - [ ] slider
+    - [ ] Styling
+    - [ ] Component
 - [x] spinner
+    - [x] Styling
+    - [x] Component
 - [ ] switch
-- [ ] tabs
+    - [ ] Styling
+    - [ ] Component
+- [x] tabs
+    - [x] Styling
+    - [x] Component
 - [x] textfield
+    - [x] Styling
+    - [x] Component
 - [ ] tooltip
+    - [ ] Styling
+    - [ ] Component
 - [x] typography
+    - [x] Styling
 - [ ] misc.
 
 License
