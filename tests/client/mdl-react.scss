@@ -29,3 +29,28 @@
 // @import "{zodiase:mdl-react}/components/tooltip/tooltip";
 @import "{zodiase:mdl-react}/components/shadow/shadow";
 @import "{zodiase:mdl-react}/components/grid/grid";
+
+html, body {
+  background-color: rgb(233, 233, 233);
+}
+
+#render-container {
+  padding: 50px;
+}
+
+#render-container > .render-set {
+  @include shadow-2dp;
+
+  position: relative;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: white;
+}
+
+#render-container h1 {
+  font-size: 3em;
+}
+
+#render-container h2 {
+  font-size: 2em;
+}
