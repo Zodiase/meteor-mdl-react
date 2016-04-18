@@ -1,9 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { $ } from 'meteor/jquery';
+import { describe, it } from 'meteor/practicalmeteor:mocha';
 import { expect } from 'meteor/practicalmeteor:chai';
 import React from 'react';
 import { render } from 'react-dom';
 import { MDlReact } from 'meteor/zodiase:mdl-react';
+
+import MaterialButtonTests from './imports/MaterialButton.tests.js';
+import MaterialSpinnerTests from './imports/MaterialSpinner.tests.js';
 
 const components = [
   'MaterialButton',
@@ -23,6 +27,7 @@ Meteor.startup(() => {
     right: '0',
     bottom: '0',
     left: '0',
+    padding: '40px',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     zIndex: '2'
   })
@@ -64,35 +69,11 @@ Meteor.startup(() => {
       }
     });
 
-    it("should render `MaterialButton`", () => {
-      expect(() => {
-        render(
-          <div>
-            <MDlReact.MaterialButton>button</MDlReact.MaterialButton>
-            <MDlReact.MaterialButton disabled>button</MDlReact.MaterialButton>
-            <MDlReact.MaterialButton ripple>button</MDlReact.MaterialButton>
-            <MDlReact.MaterialButton colored>button</MDlReact.MaterialButton>
-            <MDlReact.MaterialButton raised>button</MDlReact.MaterialButton>
-            <MDlReact.MaterialButton primary>button</MDlReact.MaterialButton>
-            <MDlReact.MaterialButton accent>button</MDlReact.MaterialButton>
-            <MDlReact.MaterialButton fab>button</MDlReact.MaterialButton>
-            <MDlReact.MaterialButton icon>button</MDlReact.MaterialButton>
-          </div>
-        , createContainer());
-      }).to.not.throw(Error);
-    });
-
-    it("should render `MaterialSpinner`", () => {
-      expect(() => {
-        render(
-          <div>
-            <MDlReact.MaterialSpinner />
-            <MDlReact.MaterialSpinner active />
-            <MDlReact.MaterialSpinner active singleColor/>
-          </div>
-        , createContainer());
-      }).to.not.throw(Error);
-    });
-
   });
+
+  MaterialButtonTests(createContainer);
+
+  MaterialSpinnerTests(createContainer);
+
+
 });
