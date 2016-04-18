@@ -173,6 +173,7 @@ class MaterialRipple extends Component {
 
     this.state = this._getStateFromProps(props);
 
+    // `this.element_` should only be set by `bindElement`.
     this.element_ = null;
     this.rippleElement_ = null;
 
@@ -198,7 +199,6 @@ class MaterialRipple extends Component {
     return (
       <span
         className={this.state.className}
-        ref={(ref) => this.element_ = ref}
       >
         <span
           className={this.CssClasses_.RIPPLE}
