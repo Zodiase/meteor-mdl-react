@@ -16,6 +16,7 @@
  */
 
 let { Component, PropTypes } = React;
+let { joinClassNames } = Helers;
 
 /**
  * MaterialTabs
@@ -59,9 +60,7 @@ class MaterialTabs extends Component {
     } = this.props;
 
     // Ensure children is an array.
-    if (!Array.isArray(children)) {
-      children = [children];
-    }
+    children = makeArray(children);
 
     // Reset references.
     this.element_ = null;
@@ -79,7 +78,7 @@ class MaterialTabs extends Component {
     if (ripple) {
       baseClasses.push(this.CssClasses_.MDL_JS_RIPPLE_EFFECT_IGNORE_EVENTS);
     }
-    props.className = self._joinClassNames(baseClasses, props.className, flaggedClassNames);
+    props.className = joinClassNames(baseClasses, props.className, flaggedClassNames);
 
     // Need to find the tab bar.
     let tabBar = null;
@@ -152,13 +151,6 @@ self.flagClassNames = [];
 for (let flagClassName of self.flagClassNames) {
   self.propTypes[flagClassName] = PropTypes.bool;
 }
-self._joinClassNames = (extraBase, currentClassName = '', extraMore = []) => {
-  return [
-    ...extraBase,
-    ...(String(currentClassName).split(' ')),
-    ...extraMore
-  ].filter((name) => String(name).length > 0).join(' ');
-};
 
 // Code from MDL.
 
@@ -224,9 +216,7 @@ class RealTabBar extends TabBar {
     } = this.props;
 
     // Ensure children is an array.
-    if (!Array.isArray(children)) {
-      children = [children];
-    }
+    children = makeArray(children);
 
     // Reset references.
     this.element_ = null;
@@ -234,7 +224,7 @@ class RealTabBar extends TabBar {
     this.ripples_ = {};
 
     let baseClasses = [cssClasses.TABBAR_CLASS];
-    tabBarProps.className = self._joinClassNames(baseClasses, tabBarProps.className);
+    tabBarProps.className = joinClassNames(baseClasses, tabBarProps.className);
 
     // Replace tabs placeholders with real tabs.
     // Do not change order.
@@ -355,9 +345,7 @@ class RealTab extends Tab {
     } = this.props;
 
     // Ensure children is an array.
-    if (!Array.isArray(children)) {
-      children = [children];
-    }
+    children = makeArray(children);
 
     // Reset references.
     this.element_ = null;
@@ -367,7 +355,7 @@ class RealTab extends Tab {
     if (tabId === activeTabId) {
       baseClasses.push(cssClasses.ACTIVE_CLASS);
     }
-    tabProps.className = self._joinClassNames(baseClasses, tabProps.className);
+    tabProps.className = joinClassNames(baseClasses, tabProps.className);
 
     // Create ripple if requested.
     let rippleContainer = null;
@@ -417,7 +405,7 @@ class RealPanel extends Panel {
     if (tabId === activeTabId) {
       baseClasses.push(cssClasses.ACTIVE_CLASS);
     }
-    panelProps.className = self._joinClassNames(baseClasses, panelProps.className);
+    panelProps.className = joinClassNames(baseClasses, panelProps.className);
 
     return (
       <div {...panelProps} />

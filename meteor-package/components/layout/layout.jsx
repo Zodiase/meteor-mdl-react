@@ -16,6 +16,7 @@
  */
 
 let { Component, PropTypes } = React;
+let { joinClassNames } = Helers;
 
 /**
  * MaterialLayout
@@ -183,14 +184,6 @@ class MaterialLayout extends Component {
     }
   }
 
-  _joinClassNames(extraBase, currentClassName = '', extraMore = []) {
-    return [
-      ...extraBase,
-      ...(String(currentClassName).split(' ')),
-      ...extraMore
-    ].filter((name) => String(name).length > 0).join(' ');
-  }
-
   _getStateFromProps(props) {
     return {};
   }
@@ -263,7 +256,7 @@ class MaterialLayout extends Component {
       }
     }
 
-    let classNameString = this._joinClassNames([self.cssName], className, flaggedClassNames);
+    let classNameString = joinClassNames([self.cssName], className, flaggedClassNames);
 
     let mode = this.Mode_.STANDARD;
     console.info('raw children', children);
@@ -298,13 +291,13 @@ class MaterialLayout extends Component {
 
     // Content should exist. Even not, prepare empty props for creating later.
     let contentProps = content ? {...content.props} : {};
-    contentProps.className = this._joinClassNames([this.CssClasses_.CONTENT], contentProps.className || '');
+    contentProps.className = joinClassNames([this.CssClasses_.CONTENT], contentProps.className || '');
 
     // Header is OK to not exist. Only prepare props when exists.
     let headerProps = null;
     if (header) {
       headerProps = {...header.props};
-      headerProps.className = this._joinClassNames([this.CssClasses_.HEADER], headerProps.className || '');
+      headerProps.className = joinClassNames([this.CssClasses_.HEADER], headerProps.className || '');
 
       if (headerProps.seamed) {
         mode = this.Mode_.SEAMED;
@@ -312,11 +305,11 @@ class MaterialLayout extends Component {
         mode = this.Mode_.WATERFALL;
       } else if (headerProps.scroll) {
         mode = this.Mode_.SCROLL;
-        contentProps.className = this._joinClassNames([], contentProps.className || '', [this.CssClasses_.HAS_SCROLLING_HEADER]);
+        contentProps.className = joinClassNames([], contentProps.className || '', [this.CssClasses_.HAS_SCROLLING_HEADER]);
       }
 
       if (mode === this.Mode_.STANDARD) {
-        headerProps.className = this._joinClassNames([], headerProps.className || '', [this.CssClasses_.CASTING_SHADOW]);
+        headerProps.className = joinClassNames([], headerProps.className || '', [this.CssClasses_.CASTING_SHADOW]);
         //! Modify tabBar.
       } else if (mode === this.Mode_.SEAMED || mode === this.Mode_.SCROLL) {
         //! Modify tabBar.
@@ -333,7 +326,7 @@ class MaterialLayout extends Component {
     let drawerButtonProps = null;
     if (drawer) {
       drawerProps = {...drawer.props};
-      drawerProps.className = this._joinClassNames([this.CssClasses_.DRAWER], drawerProps.className || '');
+      drawerProps.className = joinClassNames([this.CssClasses_.DRAWER], drawerProps.className || '');
 
       drawerButtonProps = {
         "className": this.CssClasses_.DRAWER_BTN,

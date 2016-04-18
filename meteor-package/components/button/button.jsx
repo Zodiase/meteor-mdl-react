@@ -16,17 +16,19 @@
  */
 
 let { Component, PropTypes } = React;
+let { makeArray, getClassList, registerClassNameFlags } = Helers;
 
 /**
  * MaterialButton
- * @version 1.1.1
+ * @version 1.1.3
  * @since 1.0.6
+ * @see {@link https://github.com/jasonmayes/mdl-component-design-pattern}
  */
-
 class MaterialButton extends Component {
 
   _upgrade() {
     if (this.element_) {
+      // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/button/button.js#L110}
       this.element_.addEventListener('mouseup', this.boundButtonBlurHandler);
       this.element_.addEventListener('mouseleave', this.boundButtonBlurHandler);
 
@@ -45,10 +47,28 @@ class MaterialButton extends Component {
     }
   }
 
+  _getStateFromProps(props) {
+    return {
+      // `for` only works with `label`.
+      tagName: props.htmlFor ? 'label' : 'button',
+      classList: getClassList(self, props)
+    };
+  }
+
   constructor(props) {
     super(props);
+
     this.boundButtonBlurHandler = this.blurHandler_.bind(this);
     this.boundRippleBlurHandler = this.blurHandler_.bind(this);
+
+    this.rippleContainer_ = (
+      <Components.MaterialRipple
+        onMouseUp={this.boundRippleBlurHandler}
+        ref={(ref) => this.ripple_ = ref}
+      />
+    );
+
+    this.state = this._getStateFromProps(props);
   }
 
   //componentWillMount() {}
@@ -59,7 +79,9 @@ class MaterialButton extends Component {
     this._downgrade();
   }
 
-  //componentWillReceiveProps(nextProps) {}
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._getStateFromProps(props));
+  }
   //shouldComponentUpdate(nextProps, nextState) {
   //  return true;
   //}
@@ -71,61 +93,29 @@ class MaterialButton extends Component {
   }
   render() {
     let {
-      className,
+      // @type {Boolean}
       ripple,
       children,
       ...props
     } = this.props;
 
+    // Ensure children is an array.
+    children = makeArray(children);
+
     // Reset references.
     this.ripple_ = null;
     this.element_ = null;
 
-    let classNames = [
-      self.cssName
-    ];
-    // Add classNames passed in.
-    let passedInClassNames = String(className).split(' ');
-    for (let name of passedInClassNames) {
-      if (name.length > 0) {
-        classNames.push(name);
-      }
-    }
-    // Add flag classNames.
-    for (let flagClassName of self.flagClassNames) {
-      if (this.props[flagClassName]) {
-        classNames.push(self.classNames[flagClassName]);
-      }
-    }
-    let classNameString = classNames.join(" ");
-
-    // Create ripple if requested.
-    let rippleContainer = null;
-    if (ripple) {
-      rippleContainer = (
-        <Components.MaterialRipple
-          onMouseUp={this.boundRippleBlurHandler}
-          ref={(ref) => this.ripple_ = ref}
-        />
-      );
-    }
-
-    let tagName = 'button';
-    if (props.htmlFor) {
-      // `for` only works with `label`.
-      tagName = 'label';
-    }
-
     return React.createElement(
-      tagName,
+      this.state.tagName,
       {
         ...props,
-        className: classNameString,
+        className: this.state.classList.join(' '),
         // Save reference.
         ref: (ref) => this.element_ = ref
       },
-      rippleContainer,
-      children
+      children,
+      ripple ? this.rippleContainer_ : null
     );
   }
 }
@@ -145,20 +135,17 @@ self.defaultProps = {
   "className": "",
   "type": "button",
   "disabled": false,
-  "ripple": false
+  "ripple": false,
+  "children": []
 };
-self.classNames = {
+registerClassNameFlags(self, {
   "colored": "mdl-button--colored",
   "raised": "mdl-button--raised",
   "primary": "mdl-button--primary",
   "accent": "mdl-button--accent",
   "fab": "mdl-button--fab",
   "icon": "mdl-button--icon"
-};
-self.flagClassNames = ["colored", "raised", "primary", "accent", "fab", "icon"];
-for (let flagClassName of self.flagClassNames) {
-  self.propTypes[flagClassName] = PropTypes.bool;
-}
+});
 
 // Code from MDL.
 
