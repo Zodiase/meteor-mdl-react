@@ -29,6 +29,18 @@ export default (createContainer) => {
       });
     });
 
+    it("should render empty correctly", (done) => {
+      const elementId = Meteor.uuid();
+
+      render(React.createElement(MaterialSpinner, {
+        id: elementId
+      }), createContainer(), () => {
+        const element = document.getElementById(elementId);
+        expect(element.classList.contains(MaterialSpinner.cssName)).to.be.true;
+        done();
+      });
+    });
+
     it("should render as active", (done) => {
       const elementId = Meteor.uuid();
 
