@@ -2,7 +2,9 @@
   "name": "tests",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "tests": "meteor test --driver-package=practicalmeteor:mocha",
+    "tests-full": "meteor test --full-app --driver-package=practicalmeteor:mocha"
   },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0",
