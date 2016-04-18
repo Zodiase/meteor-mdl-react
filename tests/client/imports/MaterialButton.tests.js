@@ -11,7 +11,7 @@ export default (createContainer) => {
 
     const { MaterialButton, MaterialRipple } = MDlReact;
 
-    it("should render with empty children", () => {
+    it("should render with empty children without error", () => {
       expect(() => {
         render(React.createElement(MaterialButton), createContainer());
       }).to.not.throw(Error);
