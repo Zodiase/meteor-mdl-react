@@ -8,6 +8,7 @@ import { MDlReact } from 'meteor/zodiase:mdl-react';
 
 import MaterialButtonTests from './imports/MaterialButton.tests.js';
 import MaterialSpinnerTests from './imports/MaterialSpinner.tests.js';
+import MaterialLayoutTests from './imports/MaterialLayout.tests.js';
 
 const components = [
   'MaterialButton',
@@ -75,5 +76,6 @@ Meteor.startup(() => {
 
   MaterialSpinnerTests(createContainer);
 
+  MaterialLayoutTests(createContainer);
 
 });

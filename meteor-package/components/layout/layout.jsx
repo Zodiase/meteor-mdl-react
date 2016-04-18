@@ -16,14 +16,23 @@
  */
 
 let { Component, PropTypes } = React;
-let { joinClassNames } = Helers;
+let { joinClassNames, getClassList, registerClassNameFlags } = Helers;
+
+/*
+ * Todo
+ * - Finish the tab part.
+ * - Refactor header into its own component.
+ * - Refactor drawer into its own component.
+ * - Refactor content into its own component.
+ * - All tests.
+ */
 
 /**
  * MaterialLayout
  * @version 1.1.1
  * @since 1.0.6
+ * @see {@link https://github.com/jasonmayes/mdl-component-design-pattern}
  */
-
 class MaterialLayout extends Component {
 
   _upgrade() {
@@ -185,7 +194,9 @@ class MaterialLayout extends Component {
   }
 
   _getStateFromProps(props) {
-    return {};
+    return {
+      classList: getClassList(self, props)
+    };
   }
 
   constructor(props) {
@@ -233,7 +244,6 @@ class MaterialLayout extends Component {
   }
   render() {
     let {
-      className,
       fixedHeader,
       children,
       ...props
@@ -248,15 +258,7 @@ class MaterialLayout extends Component {
     this.drawerButton_ = null;
     this.obfuscator_ = null;
 
-    let flaggedClassNames = [];
-    // Add flag classNames.
-    for (let name of self.flagClassNames) {
-      if (this.props[name]) {
-        flaggedClassNames.push(self.classNames[name]);
-      }
-    }
-
-    let classNameString = joinClassNames([self.cssName], className, flaggedClassNames);
+    let classNameString = this.state.classList.join(' ');
 
     let mode = this.Mode_.STANDARD;
     console.info('raw children', children);
@@ -291,13 +293,14 @@ class MaterialLayout extends Component {
 
     // Content should exist. Even not, prepare empty props for creating later.
     let contentProps = content ? {...content.props} : {};
-    contentProps.className = joinClassNames([this.CssClasses_.CONTENT], contentProps.className || '');
+    contentProps.className = joinClassNames([this.CssClasses_.CONTENT], contentProps.className);
 
     // Header is OK to not exist. Only prepare props when exists.
+    // @see {@link https://github.com/google/material-design-lite/blob/v1.1.1/src/layout/layout.js#L323}
     let headerProps = null;
     if (header) {
       headerProps = {...header.props};
-      headerProps.className = joinClassNames([this.CssClasses_.HEADER], headerProps.className || '');
+      headerProps.className = joinClassNames([this.CssClasses_.HEADER], headerProps.className);
 
       if (headerProps.seamed) {
         mode = this.Mode_.SEAMED;
@@ -321,12 +324,13 @@ class MaterialLayout extends Component {
     }
 
     // Drawer is OK to not exist. Only prepare props when exists.
+    // @see {@link https://github.com/google/material-design-lite/blob/v1.1.1/src/layout/layout.js#L360}
     // Add drawer toggling button to our layout, if we have an openable drawer.
     let drawerProps = null;
     let drawerButtonProps = null;
     if (drawer) {
       drawerProps = {...drawer.props};
-      drawerProps.className = joinClassNames([this.CssClasses_.DRAWER], drawerProps.className || '');
+      drawerProps.className = joinClassNames([this.CssClasses_.DRAWER], drawerProps.className);
 
       drawerButtonProps = {
         "className": this.CssClasses_.DRAWER_BTN,
@@ -446,15 +450,12 @@ self.propTypes = {
   "children": PropTypes.any.isRequired
 };
 self.defaultProps = {
-  "className": ""
+  "className": "",
+  "children": []
 };
-self.classNames = {
+registerClassNameFlags(self, {
   "fixedHeader": "mdl-layout--fixed-header"
-};
-self.flagClassNames = ["fixedHeader"];
-for (let flagClassName of self.flagClassNames) {
-  self.propTypes[flagClassName] = PropTypes.bool;
-}
+});
 
 // Code from MDL.
 
@@ -754,14 +755,48 @@ function MaterialLayoutTab(tab, tabs, panels, layout) {
 // Placeholder. Does nothing. Real magic happens in MaterialLayout.
 class Header extends Component {render() {return null;}}
 self.Header = Header;
+self.Header.propTypes = {
+  "className": PropTypes.string.isRequired,
+  "seamed": PropTypes.bool.isRequired,
+  "waterfall": PropTypes.bool.isRequired,
+  "scroll": PropTypes.bool.isRequired,
+  "children": PropTypes.any.isRequired
+};
+self.Header.defaultProps = {
+  "className": "",
+  "seamed": false,
+  "waterfall": false,
+  "scroll": false,
+  "children": []
+};
 
 // Placeholder. Does nothing. Real magic happens in MaterialLayout.
 class Drawer extends Component {render() {return null;}}
 self.Drawer = Drawer;
+self.Drawer.propTypes = {
+  "className": PropTypes.string.isRequired,
+  "largeScreenOnly": PropTypes.bool.isRequired,
+  "smallScreenOnly": PropTypes.bool.isRequired,
+  "children": PropTypes.any.isRequired
+};
+self.Drawer.defaultProps = {
+  "className": "",
+  "largeScreenOnly": false,
+  "smallScreenOnly": false,
+  "children": []
+};
 
 // Placeholder. Does nothing. Real magic happens in MaterialLayout.
 class Content extends Component {render() {return null;}}
 self.Content = Content;
+self.Content.propTypes = {
+  "className": PropTypes.string.isRequired,
+  "children": PropTypes.any.isRequired
+};
+self.Content.defaultProps = {
+  "className": "",
+  "children": []
+};
 
 class Spacer extends Component {
   render() {
@@ -773,30 +808,32 @@ class Spacer extends Component {
 self.Spacer = Spacer;
 
 class Title extends Component {
+  _getStateFromProps(props) {
+    return {
+      classList: getClassList(self.Title, props)
+    };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = this._getStateFromProps(props);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._getStateFromProps(nextProps));
+  }
   render() {
     let {
-      className,
       children,
       ...props
     } = this.props;
 
-    let classNames = [
-      "mdl-layout-title"
-    ];
-    // Add classNames passed in.
-    let passedInClassNames = String(className || '').split(' ');
-    for (let name of passedInClassNames) {
-      if (name.length > 0) {
-        classNames.push(name);
-      }
-    }
-    let classNameString = classNames.join(" ");
-
     return (
       <span {...props}
-        className={classNameString}
+        className={this.state.classList.join(' ')}
       >{children}</span>
     );
   }
 }
 self.Title = Title;
+self.Title.cssName = 'mdl-layout-title';
