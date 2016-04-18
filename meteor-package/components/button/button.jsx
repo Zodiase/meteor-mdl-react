@@ -58,6 +58,8 @@ class MaterialButton extends Component {
   constructor(props) {
     super(props);
 
+    this.state = this._getStateFromProps(props);
+
     this.boundButtonBlurHandler = this.blurHandler_.bind(this);
     this.boundRippleBlurHandler = this.blurHandler_.bind(this);
 
@@ -67,8 +69,6 @@ class MaterialButton extends Component {
         ref={(ref) => this.ripple_ = ref}
       />
     );
-
-    this.state = this._getStateFromProps(props);
   }
 
   //componentWillMount() {}

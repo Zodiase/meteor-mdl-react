@@ -51,9 +51,9 @@ class MaterialTabs extends Component {
   constructor(props) {
     super(props);
 
-    this.boundTabSelectHandler = this._tabSelectHandler.bind(this);
-
     this.state = this._getStateFromProps(props);
+
+    this.boundTabSelectHandler = this._tabSelectHandler.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     this.setState(this._getStateFromProps(nextProps));
@@ -314,6 +314,8 @@ class RealTab extends Tab {
     }
     this.onTabSelect_ = props.onTabSelect;
 
+    this.state = this._getStateFromProps(props);
+
     this.tabId_ = props.tabId;
 
     this.boundTabClickHandler = function(e) {
@@ -327,8 +329,6 @@ class RealTab extends Tab {
         ref={(ref) => this.ripple_ = ref}
       />
     );
-
-    this.state = this._getStateFromProps(props);
   }
   componentDidMount() {
     this._upgrade();

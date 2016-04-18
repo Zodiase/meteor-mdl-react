@@ -202,6 +202,8 @@ class MaterialLayout extends Component {
   constructor(props) {
     super(props);
 
+    this.state = this._getStateFromProps(props);
+
     this.boundPageShowHandler = function(e) {
       if (e.persisted) { // when page is loaded from back/forward cache
         // trigger repaint to let layout scroll in safari
@@ -218,8 +220,6 @@ class MaterialLayout extends Component {
     this.boundDrawerToggleHandler = this.drawerToggleHandler_.bind(this);
     this.boundKeyboardEventHandler = this.keyboardEventHandler_.bind(this);
     this.boundScreenSizeHandler = this.screenSizeHandler_.bind(this);
-
-    this.state = this._getStateFromProps(props);
   }
 
   //componentWillMount() {}
