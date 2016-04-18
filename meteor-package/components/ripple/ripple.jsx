@@ -163,6 +163,7 @@ class MaterialRipple extends Component {
 
   _getStateFromProps(props) {
     return {
+      "className": props.cssName ? props.cssName : self.cssName,
       "recentering": props.center
     };
   }
@@ -194,7 +195,7 @@ class MaterialRipple extends Component {
   //componentDidUpdate(prevProps, prevState) {}
   render() {
     return (
-      <span className={this.props.cssName || self.cssName}>
+      <span className={this.state.className}>
         <span
           className={this.CssClasses_.RIPPLE}
           onMouseUp={this.props.onMouseUp}
