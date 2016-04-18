@@ -53,15 +53,15 @@ export default (createContainer) => {
       });
     });
 
-    it("should render with correct button text", (done) => {
+    it("should render with correct text", (done) => {
       const elementId = Meteor.uuid(),
-            randomButtonText = Meteor.uuid();
+            randomText = Meteor.uuid();
 
       render(React.createElement(MaterialLayout.Title, {
         id: elementId
-      }, randomButtonText), createContainer(), () => {
+      }, randomText), createContainer(), () => {
         const element = document.getElementById(elementId);
-        expect(element.textContent).to.equal(randomButtonText);
+        expect(element.textContent).to.equal(randomText);
         done();
       });
     });
