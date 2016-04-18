@@ -41,6 +41,25 @@ export default (createContainer) => {
       });
     });
 
+    it("should render with correct class names", (done) => {
+      const elementId = Meteor.uuid(),
+            randomClassNames = [
+              Meteor.uuid(),
+              Meteor.uuid()
+            ];
+
+      render(React.createElement(MaterialSpinner, {
+        id: elementId,
+        className: randomClassNames.join(' ')
+      }, 'class names'), createContainer(), () => {
+        const element = document.getElementById(elementId);
+        randomClassNames.forEach((name) => {
+          expect(element.classList.contains(name)).to.be.true;
+        });
+        done();
+      });
+    });
+
     it("should render as active", (done) => {
       const elementId = Meteor.uuid();
 
