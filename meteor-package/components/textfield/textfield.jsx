@@ -16,13 +16,14 @@
  */
 
 let { Component, PropTypes } = React;
+let { getClassList, makeArray, registerClassNameFlags } = Helers;
 
 /**
  * MaterialTextfield
  * @version 1.1.1
  * @since 1.0.6
+ * @see {@link https://github.com/jasonmayes/mdl-component-design-pattern}
  */
-
 class MaterialTextfield extends Component {
 
   _upgrade() {
@@ -63,8 +64,9 @@ class MaterialTextfield extends Component {
     }
 
     return {
-      "inputValue": props.children,
-      "maxRows": maxRows
+      inputValue: props.children,
+      maxRows: maxRows,
+      classList: getClassList(self, props)
     };
   }
 
@@ -108,40 +110,27 @@ class MaterialTextfield extends Component {
   }
   render() {
     let {
+      id,
       className,
       multiline,
       label,
       errorMessage,
       expandable,
       icon,
+      // Must take `children` out.
       children,
       onChange,
-      ...props
+      ...inputProps
     } = this.props;
 
-    let classNames = [
-      self.cssName
-    ];
-    // Add classNames passed in.
-    let passedInClassNames = String(className).split(' ');
-    for (let name of passedInClassNames) {
-      if (name.length > 0) {
-        classNames.push(name);
-      }
-    }
-    // Add flag classNames.
-    for (let flagClassName of self.flagClassNames) {
-      if (this.props[flagClassName]) {
-        classNames.push(self.classNames[flagClassName]);
-      }
-    }
-    let classNameString = classNames.join(" ");
+    const inputId = `${id}__input`;
 
     let inputElement = null;
     if (multiline) {
       inputElement = (
-        <textarea {...props}
+        <textarea {...inputProps}
           key="input"
+          id={inputId}
           className={this.CssClasses_.INPUT}
           value={this.state.inputValue}
           onChange={onChange.bind(this)}
@@ -151,8 +140,9 @@ class MaterialTextfield extends Component {
       );
     } else {
       inputElement = (
-        <input {...props}
+        <input {...inputProps}
           key="input"
+          id={inputId}
           className={this.CssClasses_.INPUT}
           value={this.state.inputValue}
           onChange={onChange.bind(this)}
@@ -166,7 +156,7 @@ class MaterialTextfield extends Component {
       <label
         key="label"
         className={this.CssClasses_.LABEL}
-        htmlFor={this.props.id}
+        htmlFor={inputId}
         // Save reference.
         ref={(ref) => this.label_ = ref}
       >{label}</label>
@@ -194,7 +184,7 @@ class MaterialTextfield extends Component {
       content.push(
         <Components.MaterialButton icon
           key="toggle"
-          htmlFor={this.props.id}
+          htmlFor={inputId}
         ><i className="material-icons">{icon}</i></Components.MaterialButton>
       );
       content.push(
@@ -209,7 +199,8 @@ class MaterialTextfield extends Component {
 
     return (
       <div
-        className={classNameString}
+        id={id}
+        className={this.state.classList.join(' ')}
         // Save reference.
         ref={(ref) => this.element_ = ref}
       >{content}</div>
@@ -237,7 +228,7 @@ self.propTypes = {
   "maxRows": PropTypes.number,
   "maxLength": PropTypes.string,
   "onChange": PropTypes.func.isRequired,
-  "children": PropTypes.string
+  "children": PropTypes.string.isRequired
 };
 self.defaultProps = {
   "className": "",
@@ -250,14 +241,10 @@ self.defaultProps = {
   },
   "children": ""
 };
-self.classNames = {
+registerClassNameFlags(self, {
   "floatingLabel": "mdl-textfield--floating-label",
   "expandable": "mdl-textfield--expandable"
-};
-self.flagClassNames = ["floatingLabel", "expandable"];
-for (let flagClassName of self.flagClassNames) {
-  self.propTypes[flagClassName] = PropTypes.bool;
-}
+});
 
 // Code from MDL.
 

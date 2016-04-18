@@ -10,6 +10,7 @@ import MaterialButtonTests from './imports/MaterialButton.tests.js';
 import MaterialLayoutTests from './imports/MaterialLayout.tests.js';
 import MaterialSpinnerTests from './imports/MaterialSpinner.tests.js';
 import MaterialTabsTests from './imports/MaterialTabs.tests.js';
+import MaterialTextfieldTests from './imports/MaterialTextfield.tests.js';
 
 const components = [
   'MaterialButton',
@@ -81,5 +82,7 @@ Meteor.startup(() => {
   MaterialSpinnerTests(createContainer);
 
   MaterialTabsTests(createContainer);
+
+  MaterialTextfieldTests(createContainer);
 
 });
