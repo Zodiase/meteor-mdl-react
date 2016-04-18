@@ -16,7 +16,7 @@
  */
 
 let { Component, PropTypes } = React;
-let { makeArray, getClassList, registerClassNameFlags } = Helers;
+let { getClassList, makeArray, registerClassNameFlags } = Helers;
 
 /**
  * MaterialButton

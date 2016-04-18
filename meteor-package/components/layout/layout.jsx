@@ -16,7 +16,7 @@
  */
 
 let { Component, PropTypes } = React;
-let { joinClassNames, getClassList, registerClassNameFlags } = Helers;
+let { getClassList, joinClassNames, registerClassNameFlags } = Helers;
 
 /*
  * Todo
