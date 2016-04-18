@@ -16,7 +16,7 @@
  */
 
 let { Component, PropTypes } = React;
-let { joinClassNames } = Helers;
+let { getClassList, makeArray } = Helers;
 
 /**
  * MaterialTabs
@@ -33,9 +33,18 @@ class MaterialTabs extends Component {
   }
 
   _getStateFromProps(props) {
-    // Set the active tab ID by the default tab ID.
+    const classList = getClassList(self, props);
+    classList.push(this.CssClasses_.UPGRADED_CLASS);
+
+    // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/tabs/tabs.js#L74}
+    if (props.ripple) {
+      classList.push(this.CssClasses_.MDL_JS_RIPPLE_EFFECT_IGNORE_EVENTS);
+    }
+
     return {
-      activeTabId: props.defaultTabId
+      // Set the active tab ID by the default tab ID.
+      activeTabId: props.defaultTabId,
+      classList
     };
   }
 
@@ -65,21 +74,6 @@ class MaterialTabs extends Component {
     // Reset references.
     this.element_ = null;
 
-    let flaggedClassNames = [];
-    // Add flag classNames.
-    for (let name of self.flagClassNames) {
-      if (this.props[name]) {
-        flaggedClassNames.push(self.classNames[name]);
-      }
-    }
-
-    let baseClasses = [self.cssName, this.CssClasses_.UPGRADED_CLASS];
-    // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/tabs/tabs.js#L74}
-    if (ripple) {
-      baseClasses.push(this.CssClasses_.MDL_JS_RIPPLE_EFFECT_IGNORE_EVENTS);
-    }
-    props.className = joinClassNames(baseClasses, props.className, flaggedClassNames);
-
     // Need to find the tab bar.
     let tabBar = null;
 
@@ -93,7 +87,6 @@ class MaterialTabs extends Component {
           }
           return tabBar = (
             <RealTabBar {...element.props}
-              cssClasses={this.CssClasses_}
               onTabSelect={this.boundTabSelectHandler}
               activeTabId={this.state.activeTabId}
               ripple={ripple}
@@ -104,7 +97,6 @@ class MaterialTabs extends Component {
         case self.Panel:
           return (
             <RealPanel {...element.props}
-              cssClasses={this.CssClasses_}
               activeTabId={this.state.activeTabId}
               key={'child_' + index}
             />
@@ -127,6 +119,7 @@ class MaterialTabs extends Component {
 
     return (
       <div {...props}
+        className={this.state.classList.join(' ')}
         ref={(ref) => this.element_ = ref}
       >{children}</div>
     );
@@ -146,11 +139,6 @@ self.defaultProps = {
   "ripple": false,
   "children": []
 };
-self.classNames = {};
-self.flagClassNames = [];
-for (let flagClassName of self.flagClassNames) {
-  self.propTypes[flagClassName] = PropTypes.bool;
-}
 
 // Code from MDL.
 
@@ -188,6 +176,7 @@ MaterialTabs.prototype.CssClasses_ = {
 // Placeholder. Does nothing. Real magic happens in RealTabBar.
 class TabBar extends Component {render() {return null;}}
 self.TabBar = TabBar;
+self.TabBar.cssName = self.prototype.CssClasses_.TABBAR_CLASS;
 self.TabBar.propTypes = {
   "className": PropTypes.string.isRequired,
   "children": PropTypes.any.isRequired
@@ -198,6 +187,12 @@ self.TabBar.defaultProps = {
 };
 
 class RealTabBar extends TabBar {
+  _getStateFromProps(props) {
+    return {
+      classList: getClassList(self.TabBar, props)
+    };
+  }
+
   constructor(props) {
     super(props);
 
@@ -205,10 +200,14 @@ class RealTabBar extends TabBar {
       throw new TypeError('Invalid onTabSelect.');
     }
     this.onTabSelect_ = props.onTabSelect;
+
+    this.state = this._getStateFromProps(props);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._getStateFromProps(nextProps));
   }
   render() {
     let {
-      cssClasses,
       activeTabId,
       ripple,
       children,
@@ -220,11 +219,6 @@ class RealTabBar extends TabBar {
 
     // Reset references.
     this.element_ = null;
-    this.tabs_ = {};
-    this.ripples_ = {};
-
-    let baseClasses = [cssClasses.TABBAR_CLASS];
-    tabBarProps.className = joinClassNames(baseClasses, tabBarProps.className);
 
     // Replace tabs placeholders with real tabs.
     // Do not change order.
@@ -242,7 +236,6 @@ class RealTabBar extends TabBar {
           // Create the real tab.
           return (
             <RealTab {...element.props}
-              cssClasses={cssClasses}
               onTabSelect={this.onTabSelect_}
               activeTabId={activeTabId}
               ripple={ripple}
@@ -256,10 +249,9 @@ class RealTabBar extends TabBar {
       }
     });
 
-    tabBarProps.key = tabBarProps.key || 'tab-bar';
-
     return tabBar = (
       <div {...tabBarProps}
+        className={this.state.classList.join(' ')}
         ref={(ref) => this.element_ = ref}
       >{children}</div>
     );
@@ -269,6 +261,7 @@ class RealTabBar extends TabBar {
 // Placeholder. Does nothing. Real magic happens in RealTab.
 class Tab extends Component {render() {return null;}}
 self.Tab = Tab;
+self.Tab.cssName = self.prototype.CssClasses_.TAB_CLASS;
 self.Tab.propTypes = {
   "className": PropTypes.string.isRequired,
   "tabId": PropTypes.string.isRequired,
@@ -288,7 +281,7 @@ class RealTab extends Tab {
       this.element_.addEventListener('click', this.boundTabClickHandler); //x
 
       if (this.ripple_) {
-        this.ripple_.bindElement(this.element_); //x
+        this.ripple_.bindElement(this.element_);
       }
     }
   }
@@ -297,10 +290,20 @@ class RealTab extends Tab {
     if (this.element_) {
       this.element_.removeEventListener('click', this.boundTabClickHandler); //x
 
-      if (this.ripple_) {
-        this.ripple_.unbindElement(); //x
-      }
+      // The ripple will downgrade itself if unmounted.
     }
+  }
+
+  _getStateFromProps(props) {
+    const classList = getClassList(self.Tab, props);
+
+    if (props.tabId === props.activeTabId) {
+      classList.push(self.prototype.CssClasses_.ACTIVE_CLASS);
+    }
+
+    return {
+      classList
+    };
   }
 
   constructor(props) {
@@ -317,6 +320,15 @@ class RealTab extends Tab {
       e.preventDefault();
       this.onTabSelect_(this.tabId_);
     }.bind(this);
+
+    this.rippleContainer_ = (
+      <Components.MaterialRipple
+        cssName={self.prototype.CssClasses_.MDL_RIPPLE_CONTAINER}
+        ref={(ref) => this.ripple_ = ref}
+      />
+    );
+
+    this.state = this._getStateFromProps(props);
   }
   componentDidMount() {
     this._upgrade();
@@ -325,6 +337,9 @@ class RealTab extends Tab {
     this._downgrade();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._getStateFromProps(nextProps));
+  }
   componentWillUpdate(nextProps, nextState) {
     this._downgrade();
   }
@@ -333,9 +348,6 @@ class RealTab extends Tab {
   }
   render() {
     let {
-      cssClasses,
-      // @type {String}
-      activeTabId,
       // @type {Boolean}
       ripple,
       // @type {String}
@@ -351,30 +363,14 @@ class RealTab extends Tab {
     this.element_ = null;
     this.ripple_ = null;
 
-    let baseClasses = [cssClasses.TAB_CLASS];
-    if (tabId === activeTabId) {
-      baseClasses.push(cssClasses.ACTIVE_CLASS);
-    }
-    tabProps.className = joinClassNames(baseClasses, tabProps.className);
-
-    // Create ripple if requested.
-    let rippleContainer = null;
-    if (ripple) {
-      rippleContainer = (
-        <Components.MaterialRipple
-          cssName={cssClasses.MDL_RIPPLE_CONTAINER}
-          ref={(ref) => this.ripple_ = ref}
-        />
-      );
-    }
-
     tabProps.href = '#';
     tabProps['data-tabid'] = tabId;
 
     return (
       <a {...tabProps}
+        className={this.state.classList.join(' ')}
         ref={(ref) => this.element_ = ref}
-      >{children}{rippleContainer}</a>
+      >{children}{ripple ? this.rippleContainer_ : null}</a>
     );
   }
 }
@@ -382,6 +378,7 @@ class RealTab extends Tab {
 // Placeholder. Does nothing. Real magic happens in RealPanel.
 class Panel extends Component {render() {return null;}}
 self.Panel = Panel;
+self.Panel.cssName = self.prototype.CssClasses_.PANEL_CLASS;
 self.Panel.propTypes = {
   "className": PropTypes.string.isRequired,
   "tabId": PropTypes.string.isRequired,
@@ -393,22 +390,31 @@ self.Panel.defaultProps = {
 };
 
 class RealPanel extends Panel {
-  render() {
-    let {
-      cssClasses,
-      activeTabId,
-      tabId,
-      ...panelProps
-    } = this.props;
+  _getStateFromProps(props) {
+    const classList = getClassList(self.Panel, props);
 
-    let baseClasses = [cssClasses.PANEL_CLASS];
-    if (tabId === activeTabId) {
-      baseClasses.push(cssClasses.ACTIVE_CLASS);
+    if (props.tabId === props.activeTabId) {
+      classList.push(self.prototype.CssClasses_.ACTIVE_CLASS);
     }
-    panelProps.className = joinClassNames(baseClasses, panelProps.className);
 
+    return {
+      classList
+    };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = this._getStateFromProps(props);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._getStateFromProps(nextProps));
+  }
+  render() {
     return (
-      <div {...panelProps} />
+      <div {...this.props}
+        className={this.state.classList.join(' ')}
+      />
     );
   }
 }
