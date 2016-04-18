@@ -174,6 +174,7 @@ class MaterialRipple extends Component {
     this.state = this._getStateFromProps(props);
 
     this.element_ = null;
+    this.rippleElement_ = null;
 
     this.boundDownHandler = this.downHandler_.bind(this);
     this.boundUpHandler = this.upHandler_.bind(this);
@@ -195,7 +196,10 @@ class MaterialRipple extends Component {
   //componentDidUpdate(prevProps, prevState) {}
   render() {
     return (
-      <span className={this.state.className}>
+      <span
+        className={this.state.className}
+        ref={(ref) => this.element_ = ref}
+      >
         <span
           className={this.CssClasses_.RIPPLE}
           onMouseUp={this.props.onMouseUp}
