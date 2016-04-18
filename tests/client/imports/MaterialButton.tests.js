@@ -29,6 +29,18 @@ export default (createContainer) => {
       });
     });
 
+    it("should render empty correctly", (done) => {
+      const elementId = Meteor.uuid();
+
+      render(React.createElement(MaterialButton, {
+        id: elementId
+      }), createContainer(), () => {
+        const element = document.getElementById(elementId);
+        expect(element.classList.contains(MaterialButton.cssName)).to.be.true;
+        done();
+      });
+    });
+
     it("should render with correct button text", (done) => {
       const elementId = Meteor.uuid(),
             randomButtonText = Meteor.uuid();
