@@ -11,7 +11,7 @@ export default (createContainer) => {
 
     const { MaterialSpinner } = MDlReact;
 
-    it("should render empty", () => {
+    it("should render empty without error", () => {
       expect(() => {
         render(React.createElement(MaterialSpinner), createContainer());
       }).to.not.throw(Error);
