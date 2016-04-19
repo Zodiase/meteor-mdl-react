@@ -24,7 +24,7 @@ ecmascript-runtime@0.2.9
 ejson@1.0.10
 es5-shim@4.5.9
 fastclick@1.0.10
-fourseven:scss@3.4.2
+fourseven:scss@3.4.3
 geojson-utils@1.0.7
 hot-code-push@1.0.3
 html-tools@1.0.8
@@ -57,9 +57,9 @@ practicalmeteor:mocha-core@0.1.4
 practicalmeteor:sinon@1.14.1_2
 promise@0.6.6
 random@1.0.8
-react@15.0.0
-react-meteor-data@0.2.8
-react-runtime@15.0.0
+react@15.0.1
+react-meteor-data@0.2.9
+react-runtime@15.0.1
 reactive-var@1.0.8
 reload@1.1.7
 retry@1.0.6
