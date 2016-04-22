@@ -80,7 +80,7 @@ class MaterialButton extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(this._getStateFromProps(props));
+    this.setState(this._getStateFromProps(nextProps));
   }
   //shouldComponentUpdate(nextProps, nextState) {
   //  return true;
