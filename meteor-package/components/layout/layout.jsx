@@ -16,7 +16,7 @@
  */
 
 let { Component, PropTypes } = React;
-let { getClassList, joinClassNames, registerClassNameFlags } = Helers;
+let { getClassList, joinClassNames, makeArray, registerClassNameFlags } = Helers;
 
 /*
  * Todo
@@ -248,6 +248,9 @@ class MaterialLayout extends Component {
       children,
       ...props
     } = this.props;
+
+    // Ensure children is an array.
+    children = makeArray(children);
 
     // Reset references.
     this.container_ = null;
