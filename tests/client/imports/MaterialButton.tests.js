@@ -178,6 +178,23 @@ export default (createContainer) => {
       });
     });
 
+    it("should handle onClick", (done) => {
+      const elementId = Meteor.uuid();
+      let clicked = false;
+
+      render(React.createElement(MaterialButton, {
+        id: elementId,
+        onClick: () => {
+          clicked = true;
+        }
+      }, 'onClick'), createContainer(), () => {
+        const element = document.getElementById(elementId);
+        element.click();
+        expect(clicked).to.be.true;
+        done();
+      });
+    });
+
   });
 
 };
