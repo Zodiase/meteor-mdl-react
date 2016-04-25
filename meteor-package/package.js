@@ -19,7 +19,7 @@ const srcPath = 'components',
 
         // Base components
         'button':      HAS_JS | HAS_SCSS,
-        'checkbox':    0,
+        'checkbox':    HAS_JS | HAS_SCSS,
         'icon-toggle': 0,
         'menu':        0,
         'progress':    0,
@@ -87,6 +87,13 @@ Package.onUse(function(api) {
   }
 
   api.addFiles('export.js', platform);
+
+  // Add images.
+  api.addAssets([
+    // Needed by Checkbox.
+    'components/images/tick.svg',
+    'components/images/tick-mask.svg'
+  ], 'client');
 });
 
 /*

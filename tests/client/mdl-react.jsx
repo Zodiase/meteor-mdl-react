@@ -7,6 +7,7 @@ import { MDlReact } from 'meteor/zodiase:mdl-react';
 
 const {
   MaterialButton,
+  MaterialCheckbox,
   MaterialLayout,
   MaterialRipple,
   MaterialSpinner,
@@ -46,6 +47,15 @@ Meteor.startup(() => {
       <MaterialButton raised icon><i className="material-icons">add</i></MaterialButton>
     </div>
   , createContainer('Buttons'));
+
+  render(
+    <div>
+      <MaterialCheckbox id="checkbox-not-checked">Not Checked</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-checked" checked>Checked</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-ripple" ripple>Ripple Checkbox</MaterialCheckbox>
+      <MaterialCheckbox id="chkbox1" ripple>Enable AutoSave</MaterialCheckbox>
+    </div>
+  , createContainer('Checkboxes'));
 
   render(
     <MaterialTabs defaultTabId="p2" ripple>

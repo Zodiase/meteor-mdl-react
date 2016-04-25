@@ -24,9 +24,9 @@ Progress
 - [ ] card
     - [x] Styling
     - [ ] Component
-- [ ] checkbox
-    - [ ] Styling
-    - [ ] Component
+- [x] checkbox
+    - [x] Styling
+    - [x] Component
 - [ ] data-table
     - [ ] Styling
     - [ ] Component
