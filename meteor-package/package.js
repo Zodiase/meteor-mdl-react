@@ -73,7 +73,7 @@ Package.onUse(function(api) {
   api.use([
     'ecmascript',
     'jquery',
-    'react@15.0.0',
+    'tmeasday:check-npm-versions@0.3.1',
     'fourseven:scss@3.4.2'
   ]);
 

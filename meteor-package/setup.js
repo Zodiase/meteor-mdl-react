@@ -1,3 +1,10 @@
+import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
+checkNpmVersions({
+  "react": "15.x"
+}, 'zodiase:mdl-react');
+
+React = require('react');
+
 // The name of the property attached to React.Component for storing a map of flag names and their matching class names.
 const classNameFlagsNamespace = '_flagClassNames';
 
