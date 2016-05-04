@@ -57,9 +57,6 @@ practicalmeteor:mocha-core@0.1.4
 practicalmeteor:sinon@1.14.1_2
 promise@0.6.6
 random@1.0.8
-react@15.0.1
-react-meteor-data@0.2.9
-react-runtime@15.0.1
 reactive-var@1.0.8
 reload@1.1.7
 retry@1.0.6
@@ -70,7 +67,7 @@ standard-minifier-css@1.0.5
 standard-minifier-js@1.0.5
 templating@1.1.8
 templating-tools@1.0.3
-tmeasday:check-npm-versions@0.2.0
+tmeasday:check-npm-versions@0.3.1
 tmeasday:test-reporter-helpers@0.2.1
 tracker@1.0.12
 ui@1.0.10
