@@ -16,7 +16,7 @@
  */
 
 let { Component, PropTypes } = React;
-let { getClassList, makeArray, registerClassNameFlags } = Helers;
+let { getClassList, handleExtraHandler, makeArray, registerClassNameFlags } = Helers;
 
 /**
  * MaterialTextfield
@@ -26,45 +26,19 @@ let { getClassList, makeArray, registerClassNameFlags } = Helers;
  */
 class MaterialTextfield extends Component {
 
-  _upgrade() {
-    if (this.element_) {
-
-      if (this.input_) {
-        this.input_.addEventListener('input', this.boundUpdateClassesHandler);
-        this.input_.addEventListener('focus', this.boundFocusHandler);
-        this.input_.addEventListener('blur', this.boundBlurHandler);
-        this.input_.addEventListener('reset', this.boundResetHandler);
-        if (this.state.maxRows !== this.Constant_.NO_MAX_ROWS) {
-          // TODO: This should handle pasting multi line text.
-          // Currently doesn't.
-          this.input_.addEventListener('keydown', this.boundKeyDownHandler);
-        }
-        this.updateClasses_();
-      }
-    }
-  }
-
-  _downgrade() {
-    if (this.element_) {
-
-      if (this.input_) {
-        this.input_.removeEventListener('input', this.boundUpdateClassesHandler);
-        this.input_.removeEventListener('focus', this.boundFocusHandler);
-        this.input_.removeEventListener('blur', this.boundBlurHandler);
-        this.input_.removeEventListener('reset', this.boundResetHandler);
-        this.input_.removeEventListener('keydown', this.boundKeyDownHandler);
-      }
-    }
-  }
-
   _getStateFromProps(props) {
+    // @see {@link https://github.com/google/material-design-lite/blob/v1.1.1/src/textfield/textfield.js#L234}
     let maxRows = parseInt(props.maxRows, 10);
     if (isNaN(maxRows)) {
       maxRows = this.Constant_.NO_MAX_ROWS;
     }
 
     return {
-      inputValue: props.value,
+      inputOnChange: props.onChange,
+      inputOnFocus: props.onFocus,
+      inputOnBlur: props.onBlur,
+      inputOnKeyDown: props.onKeyDown,
+      inputOnReset: props.onReset,
       maxRows: maxRows,
       classList: getClassList(self, props)
     };
@@ -82,19 +56,50 @@ class MaterialTextfield extends Component {
     // TODO: This should handle pasting multi line text.
     // Currently doesn't.
     this.boundKeyDownHandler = this.onKeyDown_.bind(this);
+
+    this.reactBoundInputOnChange = handleExtraHandler(
+      () => this.state.inputOnChange,
+      this.boundUpdateClassesHandler
+    );
+
+    this.reactBoundInputOnFocus = handleExtraHandler(
+      () => this.state.inputOnFocus,
+      this.boundFocusHandler
+    );
+
+    this.reactBoundInputOnBlur = handleExtraHandler(
+      () => this.state.inputOnBlur,
+      this.boundBlurHandler
+    );
+
+    this.reactBoundInputOnReset = handleExtraHandler(
+      () => this.state.inputOnReset,
+      this.boundResetHandler
+    );
+
+    this.reactBoundInputOnKeyDown = handleExtraHandler(
+      () => this.state.inputOnKeyDown,
+      (event) => {
+        // @see {@link https://github.com/google/material-design-lite/blob/v1.1.1/src/textfield/textfield.js#L250}
+        if (this.state.maxRows !== this.Constant_.NO_MAX_ROWS) {
+          // TODO: This should handle pasting multi line text.
+          // Currently doesn't.
+          this.boundKeyDownHandler(event);
+        }
+      }
+    );
   }
 
   //componentWillMount() {}
   componentDidMount() {
-    this._upgrade();
+    this.updateClasses_();
+    // @see {@link https://github.com/google/material-design-lite/blob/v1.1.1/src/textfield/textfield.js#L263}
     if (this.props.autoFocus) {
       this.element_.focus();
       this.checkFocus();
     }
   }
-  componentWillUnmount() {
-    this._downgrade();
-  }
+  //componentWillUnmount() {}
 
   componentWillReceiveProps(nextProps) {
     this.setState(this._getStateFromProps(nextProps));
@@ -102,11 +107,9 @@ class MaterialTextfield extends Component {
   //shouldComponentUpdate(nextProps, nextState) {
   //  return true;
   //}
-  componentWillUpdate(nextProps, nextState) {
-    this._downgrade();
-  }
+  //componentWillUpdate(nextProps, nextState) {}
   componentDidUpdate(prevProps, prevState) {
-    this._upgrade();
+    this.updateClasses_();
   }
   render() {
     let {
@@ -132,8 +135,13 @@ class MaterialTextfield extends Component {
           key="input"
           id={inputId}
           className={this.CssClasses_.INPUT}
-          value={this.state.inputValue}
-          onChange={onChange.bind(this)}
+          // @see {@link https://github.com/google/material-design-lite/blob/v1.1.1/src/textfield/textfield.js#L245}
+          onChange={this.reactBoundInputOnChange}
+          onFocus={this.reactBoundInputOnFocus}
+          onBlur={this.reactBoundInputOnBlur}
+          onReset={this.reactBoundInputOnReset}
+          // @see {@link https://github.com/google/material-design-lite/blob/v1.1.1/src/textfield/textfield.js#L254}
+          onKeyDown={this.reactBoundInputOnKeyDown}
           // Save reference.
           ref={(ref) => this.input_ = ref}
         />
@@ -144,8 +152,13 @@ class MaterialTextfield extends Component {
           key="input"
           id={inputId}
           className={this.CssClasses_.INPUT}
-          value={this.state.inputValue}
-          onChange={onChange.bind(this)}
+          // @see {@link https://github.com/google/material-design-lite/blob/v1.1.1/src/textfield/textfield.js#L245}
+          onChange={this.reactBoundInputOnChange}
+          onFocus={this.reactBoundInputOnFocus}
+          onBlur={this.reactBoundInputOnBlur}
+          onReset={this.reactBoundInputOnReset}
+          // @see {@link https://github.com/google/material-design-lite/blob/v1.1.1/src/textfield/textfield.js#L254}
+          onKeyDown={this.reactBoundInputOnKeyDown}
           // Save reference.
           ref={(ref) => this.input_ = ref}
         />
@@ -227,18 +240,18 @@ self.propTypes = {
   "autoFocus": PropTypes.bool,
   "maxRows": PropTypes.number,
   "maxLength": PropTypes.string,
-  "onChange": PropTypes.func.isRequired,
-  "value": PropTypes.string
+  "onChange": PropTypes.func,
+  "onFocus": PropTypes.func,
+  "onBlur": PropTypes.func,
+  "onReset": PropTypes.func,
+  "onKeyDown": PropTypes.func,
+  "value": PropTypes.string,
+  "defaultValue": PropTypes.string
 };
 self.defaultProps = {
   "className": "",
   "type": "text",
-  "maxRows": -1,
-  "onChange": function(event) {
-    this.setState({
-      "inputValue": event.target.value
-    });
-  }
+  "maxRows": -1
 };
 registerClassNameFlags(self, {
   "floatingLabel": "mdl-textfield--floating-label",
