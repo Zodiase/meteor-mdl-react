@@ -87,6 +87,7 @@ Package.onUse(function(api) {
   }
 
   api.addFiles('export.js', platform);
+  api.addFiles('theme.scss', 'server', {isImport: true});
 
   // Add images.
   api.addAssets([
