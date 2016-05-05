@@ -122,7 +122,6 @@ class MaterialTextfield extends Component {
       icon,
       // Must take `children` out.
       children,
-      onChange,
       ...inputProps
     } = this.props;
 
