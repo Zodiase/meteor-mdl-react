@@ -64,7 +64,7 @@ class MaterialTextfield extends Component {
     }
 
     return {
-      inputValue: props.children,
+      inputValue: props.value,
       maxRows: maxRows,
       classList: getClassList(self, props)
     };
@@ -228,7 +228,7 @@ self.propTypes = {
   "maxRows": PropTypes.number,
   "maxLength": PropTypes.string,
   "onChange": PropTypes.func.isRequired,
-  "children": PropTypes.string.isRequired
+  "value": PropTypes.string
 };
 self.defaultProps = {
   "className": "",
@@ -238,8 +238,7 @@ self.defaultProps = {
     this.setState({
       "inputValue": event.target.value
     });
-  },
-  "children": ""
+  }
 };
 registerClassNameFlags(self, {
   "floatingLabel": "mdl-textfield--floating-label",
