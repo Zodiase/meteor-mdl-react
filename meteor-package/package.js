@@ -34,7 +34,7 @@ const srcPath = 'components',
 
         // Complex components (which reuse base components)
         'layout':      HAS_JS | HAS_SCSS,
-        'data-table':  0,
+        'data-table':  HAS_JS | HAS_SCSS,
 
         // And finally, the ripples
         'ripple':      HAS_JS | HAS_SCSS
