@@ -274,22 +274,26 @@ class MaterialLayout extends Component {
         obfuscator = null,
         content = null;
     children = children.filter(function (element) {
-      switch (element.type) {
-        case self.Header:
-          header = element;
-          return false;
-          break;
-        case self.Drawer:
-          drawer = element;
-          return false;
-          break;
-        case self.Content:
-          content = element;
-          return false;
-          break;
-        default:
-          return true;
-          break;
+      if (typeof element !== 'object' || element === null) {
+        return true;
+      } else {
+        switch (element.type) {
+          case self.Header:
+            header = element;
+            return false;
+            break;
+          case self.Drawer:
+            drawer = element;
+            return false;
+            break;
+          case self.Content:
+            content = element;
+            return false;
+            break;
+          default:
+            return true;
+            break;
+        }
       }
     });
     console.info('filtered children', children);
