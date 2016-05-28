@@ -1,3 +1,6 @@
+$root_url: '' !default;
+$image_path: '#{$root_url}/packages/zodiase_mdl-react/components/images';
+
 @import "./components/variables";
 @import "./components/mixins";
 
