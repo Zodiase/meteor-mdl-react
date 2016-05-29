@@ -239,3 +239,45 @@ self.Actions.defaultProps = {
   "className": "",
   "children": []
 };
+class Menu extends Component {
+
+  _getStateFromProps(props) {
+    const classList = getClassList(self.Menu, props);
+
+    return {
+      classList
+    };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = this._getStateFromProps(props);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._getStateFromProps(nextProps));
+  }
+  render() {
+    let {
+      children,
+      ...props
+    } = this.props;
+
+    return (
+      <div {...props}
+        className={this.state.classList.join(' ')}
+        ref={(ref) => this.element_ = ref}
+      >{children}</div>
+    );
+  }
+}
+self.Menu = Menu;
+self.Menu.cssName = 'mdl-card__menu';
+self.Menu.propTypes = {
+  "className": PropTypes.string.isRequired,
+  "children": PropTypes.any.isRequired
+};
+self.Menu.defaultProps = {
+  "className": "",
+  "children": []
+};
