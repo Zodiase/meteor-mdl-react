@@ -21,9 +21,9 @@ Progress
 - [x] button
     - [x] Styling
     - [x] Component
-- [ ] card
+- [x] card
     - [x] Styling
-    - [ ] Component
+    - [x] Component
 - [x] checkbox
     - [x] Styling
     - [x] Component
