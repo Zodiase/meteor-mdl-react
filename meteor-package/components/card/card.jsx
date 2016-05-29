@@ -115,6 +115,49 @@ registerClassNameFlags(self.Title, {
   "expand": "mdl-card--expand"
 });
 
+class TitleText extends Component {
+
+  _getStateFromProps(props) {
+    const classList = getClassList(self.TitleText, props);
+
+    return {
+      classList
+    };
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = this._getStateFromProps(props);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._getStateFromProps(nextProps));
+  }
+  render() {
+    let {
+      children,
+      ...props
+    } = this.props;
+
+    return (
+      <h2 {...props}
+        className={this.state.classList.join(' ')}
+        ref={(ref) => this.element_ = ref}
+      >{children}</h2>
+    );
+  }
+}
+self.TitleText = TitleText;
+self.TitleText.cssName = 'mdl-card__title-text';
+self.TitleText.propTypes = {
+  "className": PropTypes.string.isRequired,
+  "children": PropTypes.any.isRequired
+};
+self.TitleText.defaultProps = {
+  "className": "",
+  "children": []
+};
+
 class Media extends Component {
 
   _getStateFromProps(props) {
