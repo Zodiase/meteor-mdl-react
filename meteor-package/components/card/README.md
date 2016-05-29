@@ -29,7 +29,7 @@ A card (no shadow) with a title, image, text, and action.
 ```HTML
 <MaterialCard>
   <MaterialCard.Title>
-     <h2 class="mdl-card__title-text">Auckland Sky Tower<br>Auckland, New Zealand</h2>
+     <MaterialCard.TitleText>Auckland Sky Tower<br>Auckland, New Zealand</MaterialCard.TitleText>
   </MaterialCard.Title>
   <MaterialCard.Media>
     <img src="skytower.jpg" width="173" height="157" border="0" alt=""
@@ -49,7 +49,7 @@ A card (no shadow) with a title, image, text, and action.
 
 <div class="mdl-card">
   <div class="mdl-card__title">
-     <h2 class="mdl-card__title-text">Auckland Sky Tower<br>Auckland, New Zealand</h2>
+     <MaterialCard.TitleText>Auckland Sky Tower<br>Auckland, New Zealand</MaterialCard.TitleText>
   </div>
   <div class="mdl-card__media">
     <img src="skytower.jpg" width="173" height="157" border="0" alt=""
