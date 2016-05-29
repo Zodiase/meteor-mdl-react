@@ -1,34 +1,4 @@
-@import "{zodiase:mdl-react}/components/variables";
-@import "{zodiase:mdl-react}/components/mixins";
-
-@import "{zodiase:mdl-react}/components/resets/resets";
-@import "{zodiase:mdl-react}/components/typography/typography";
-
-@import "{zodiase:mdl-react}/components/palette/palette";
-@import "{zodiase:mdl-react}/components/ripple/ripple";
-@import "{zodiase:mdl-react}/components/animation/animation";
-@import "{zodiase:mdl-react}/components/badge/badge";
-@import "{zodiase:mdl-react}/components/button/button";
-@import "{zodiase:mdl-react}/components/card/card";
-@import "{zodiase:mdl-react}/components/checkbox/checkbox";
-// @import "{zodiase:mdl-react}/components/data-table/data-table";
-@import "{zodiase:mdl-react}/components/dialog/dialog";
-@import "{zodiase:mdl-react}/components/footer/footer";
-// @import "{zodiase:mdl-react}/components/icon-toggle/icon-toggle";
-@import "{zodiase:mdl-react}/components/list/list";
-// @import "{zodiase:mdl-react}/components/menu/menu";
-// @import "{zodiase:mdl-react}/components/progress/progress";
-@import "{zodiase:mdl-react}/components/layout/layout";
-// @import "{zodiase:mdl-react}/components/radio/radio";
-// @import "{zodiase:mdl-react}/components/slider/slider";
-// @import "{zodiase:mdl-react}/components/snackbar/snackbar";
-@import "{zodiase:mdl-react}/components/spinner/spinner";
-// @import "{zodiase:mdl-react}/components/switch/switch";
-@import "{zodiase:mdl-react}/components/tabs/tabs";
-@import "{zodiase:mdl-react}/components/textfield/textfield";
-// @import "{zodiase:mdl-react}/components/tooltip/tooltip";
-@import "{zodiase:mdl-react}/components/shadow/shadow";
-@import "{zodiase:mdl-react}/components/grid/grid";
+@import "{zodiase:mdl-react}/theme";
 
 html, body {
   background-color: rgb(233, 233, 233);
