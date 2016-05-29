@@ -16,7 +16,7 @@
  */
 
 let { Component, PropTypes } = React;
-let { getClassList, makeArray } = Helers;
+let { getClassList, makeArray, registerClassNameFlags } = Helers;
 
 /**
  * MaterialCard
@@ -110,6 +110,10 @@ self.Title.defaultProps = {
   "className": "",
   "children": []
 };
+registerClassNameFlags(self.Title, {
+  "border": "mdl-card--border",
+  "expand": "mdl-card--expand"
+});
 
 class Media extends Component {
 
@@ -153,6 +157,10 @@ self.Media.defaultProps = {
   "className": "",
   "children": []
 };
+registerClassNameFlags(self.Media, {
+  "border": "mdl-card--border",
+  "expand": "mdl-card--expand"
+});
 
 class Text extends Component {
 
@@ -196,6 +204,10 @@ self.Text.defaultProps = {
   "className": "",
   "children": []
 };
+registerClassNameFlags(self.Text, {
+  "border": "mdl-card--border",
+  "expand": "mdl-card--expand"
+});
 
 class Actions extends Component {
 
@@ -239,6 +251,11 @@ self.Actions.defaultProps = {
   "className": "",
   "children": []
 };
+registerClassNameFlags(self.Actions, {
+  "border": "mdl-card--border",
+  "expand": "mdl-card--expand"
+});
+
 class Menu extends Component {
 
   _getStateFromProps(props) {
