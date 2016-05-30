@@ -165,6 +165,14 @@ class MaterialCheckbox extends Component {
     );
   }
 
+  get element() {
+    return this.element_;
+  }
+
+  get inputElement() {
+    return this.inputElement_;
+  }
+
   componentDidMount() {
     this._upgrade();
     this.updateClasses_();
