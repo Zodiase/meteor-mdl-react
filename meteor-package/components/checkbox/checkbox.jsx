@@ -173,6 +173,10 @@ class MaterialCheckbox extends Component {
     return this.inputElement_;
   }
 
+  get labelElement() {
+    return this.labelElement_;
+  }
+
   componentDidMount() {
     this._upgrade();
     this.updateClasses_();
@@ -229,7 +233,11 @@ class MaterialCheckbox extends Component {
           // Save reference.
           ref={(ref) => this.inputElement_ = ref}
         />
-        <span className="mdl-checkbox__label">{children}</span>
+        <span
+          className="mdl-checkbox__label"
+          // Save reference.
+          ref={(ref) => this.labelElement_ = ref}
+        >{children}</span>
         <span className={this.CssClasses_.FOCUS_HELPER}></span>
         <span className={this.CssClasses_.BOX_OUTLINE}>
           <span className={this.CssClasses_.TICK_OUTLINE}></span>
