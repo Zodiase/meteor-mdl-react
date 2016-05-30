@@ -7,6 +7,7 @@ import { MDlReact } from 'meteor/zodiase:mdl-react';
 
 const {
   MaterialButton,
+  MaterialCard,
   MaterialCheckbox,
   MaterialLayout,
   MaterialRipple,
@@ -47,6 +48,42 @@ Meteor.startup(() => {
       <MaterialButton raised icon><i className="material-icons">add</i></MaterialButton>
     </div>
   , createContainer('Buttons'));
+
+  render(
+    <div>
+      <MaterialCard>
+        <MaterialCard.Title>
+           <MaterialCard.TitleText>Auckland Sky Tower<br />Auckland, New Zealand</MaterialCard.TitleText>
+        </MaterialCard.Title>
+        <MaterialCard.Media>
+          <img src="skytower.jpg" width="173" height="157" border="0" alt=""
+           style={{padding: '10px'}} />
+        </MaterialCard.Media>
+        <MaterialCard.Text>
+        The Sky Tower is an observation and telecommunications tower located in Auckland,
+        New Zealand. It is 328 metres (1,076 ft) tall, making it the tallest man-made structure
+        in the Southern Hemisphere.
+        </MaterialCard.Text>
+        <MaterialCard.Actions>
+           <a href="http://en.wikipedia.org/wiki/Sky_Tower_%28Auckland%29">Wikipedia entry</a>
+        </MaterialCard.Actions>
+      </MaterialCard>
+      <MaterialCard className="mdl-shadow--4dp">
+        <MaterialCard.Media>
+          <img src="skytower.jpg" width="173" height="157" border="0"
+            alt="" style={{padding: '10px'}} />
+        </MaterialCard.Media>
+        <MaterialCard.Text>
+          Auckland Sky Tower, taken March 24th, 2014
+        </MaterialCard.Text>
+        <MaterialCard.Text>
+        The Sky Tower is an observation and telecommunications tower located in Auckland,
+        New Zealand. It is 328 metres (1,076 ft) tall, making it the tallest man-made structure
+        in the Southern Hemisphere.
+        </MaterialCard.Text>
+      </MaterialCard>
+    </div>
+  , createContainer('Card'));
 
   render(
     <div>
