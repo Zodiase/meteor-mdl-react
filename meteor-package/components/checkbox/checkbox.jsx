@@ -23,9 +23,39 @@ let { getClassList, handleExtraHandler, joinClassNames, makeArray, registerClass
  * @version 1.1.3
  * @since 1.1.3
  * @see {@link https://github.com/jasonmayes/mdl-component-design-pattern}
+ *
+ * Controlled:
+ *   - Provide:
+ *     - `checked`.
+ *   - Should not Provide:
+ *     - `defaultChecked`.
+ * Uncontrolled otherwise.
  */
 class MaterialCheckbox extends Component {
 
+  /**
+   * Determine the component is controlled or not by its props.
+   * @param {Object} props
+   */
+  _isControlled(props) {
+    if (typeof props.checked === 'undefined') {
+      // Uncontrolled.
+      return false;
+    } else {
+      // Controlled.
+
+      // Can not have defaultChecked.
+      if (typeof props.defaultChecked !== 'undefined') {
+        throw new Error('MaterialCheckbox must be either controlled or uncontrolled (specify either the checked prop, or the defaultChecked prop, but not both).');
+      }
+
+      return true;
+    }
+  }
+
+  /**
+   * Upgrade MDL Component.
+   */
   _upgrade() {
     if (this.element_) {
       if (this.ripple_) {
@@ -34,20 +64,62 @@ class MaterialCheckbox extends Component {
     }
   }
 
+  /**
+   * Downgrade MDL Component.
+   */
   _downgrade() {
     if (this.element_) {
       // The ripple will downgrade itself if unmounted.
     }
   }
 
-  _getStateFromProps(props) {
+  /**
+   * Generate state object from props.
+   * @param {Object} props
+   */
+  _getStateFromProps(props, controlled) {
+    const firstRun = typeof this.state === 'undefined';
+
+    let controlled_next = this._isControlled(props),
+        checked_prev = Boolean(props.defaultChecked),
+        rippleComponent = null;
+
+    if (!firstRun) {
+      const controlled_prev = this.state.isControlled;
+      if (controlled_prev !== controlled_next) {
+        controlled_next = controlled_prev;
+        throw new Error('MaterialCheckbox should not switch from uncontrolled to controlled (or vice versa).');
+      }
+
+      checked_prev = Boolean(this.state.inputChecked);
+
+      rippleComponent = this.state.rippleComponent;
+    }
+
+    const checked_next = (controlled_next) ? props.checked : checked_prev;
+
     const classList = getClassList(self, props);
     classList.push(this.CssClasses_.IS_UPGRADED);
 
+    // Prepare ripple component if needed.
+    if (props.ripple && rippleComponent === null) {
+      rippleComponent = (
+        <Components.MaterialRipple center
+          // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/checkbox/checkbox.js#L235}
+          cssName={this.CssClasses_.RIPPLE_CONTAINER}
+          // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/checkbox/checkbox.js#L239}
+          onMouseUp={this.boundRippleMouseUp}
+          ref={(ref) => this.ripple_ = ref}
+        />
+      );
+    }
+
     return {
+      isControlled: controlled_next,
       inputOnChange: props.onChange || null,
-      inputChecked: props.checked,
-      classList
+      inputChecked: checked_next,
+      classList,
+      rippleComponent
     };
   }
 
@@ -65,27 +137,25 @@ class MaterialCheckbox extends Component {
     this.boundInputOnBlur = this.onBlur_.bind(this);
     this.boundElementMouseUp = this.onMouseUp_.bind(this);
 
-    this.reactBoundInputOnChange = handleExtraHandler(() => {
-      return this.state.inputOnChange;
-    }, (event) => {
+    this.reactBoundInputOnChange = handleExtraHandler(
+      () => {
+        return this.state.inputOnChange;
+      },
+      // If the former function prevents default, this won't run.
+      (event) => {
+        if (this.state.isControlled) {
+          // If controlled, prevent default.
+        } else {
+          // If not controlled, maintain internal state.
+          const checked_next = event.target.checked;
+          this.setState({
+            inputChecked: checked_next
+          });
 
-      this.setState({
-        inputChecked: event.target.checked
-      });
-
-      // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/checkbox/checkbox.js#L251}
-      this.boundInputOnChange(event);
-
-    });
-
-    this.rippleContainer_ = (
-      <Components.MaterialRipple center
-        // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/checkbox/checkbox.js#L235}
-        cssName={this.CssClasses_.RIPPLE_CONTAINER}
-        // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/checkbox/checkbox.js#L239}
-        onMouseUp={this.boundRippleMouseUp}
-        ref={(ref) => this.ripple_ = ref}
-      />
+          // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/checkbox/checkbox.js#L251}
+          this.boundInputOnChange(event);
+        }
+      }
     );
   }
 
@@ -112,25 +182,17 @@ class MaterialCheckbox extends Component {
       id,
       // @type {Boolean}
       ripple,
+      name: inputName,
+      value: inputValue,
+      disabled: inputDisabled,
       children,
-      // Filter unwanted props.
-      checked,
-      onChange,
       ...props
     } = this.props;
 
-    // Ensure children is an array.
-    children = makeArray(children);
-
     const inputId = `${id}__input`;
 
-    // Reset references.
-    this.ripple_ = null;
-    this.element_ = null;
-    this.inputElement_ = null;
-
     return (
-      <label {...props}
+      <label
         id={id}
         className={this.state.classList.join(' ')}
         htmlFor={inputId}
@@ -144,6 +206,9 @@ class MaterialCheckbox extends Component {
           id={inputId}
           className={this.CssClasses_.INPUT}
           checked={this.state.inputChecked}
+          name={inputName}
+          value={inputValue}
+          disabled={inputDisabled}
           onChange={this.reactBoundInputOnChange}
           onFocus={this.boundInputOnFocus}
           onBlur={this.boundInputOnBlur}
@@ -155,7 +220,7 @@ class MaterialCheckbox extends Component {
         <span className={this.CssClasses_.BOX_OUTLINE}>
           <span className={this.CssClasses_.TICK_OUTLINE}></span>
         </span>
-        {ripple ? this.rippleContainer_ : null}
+        {ripple ? this.state.rippleComponent : null}
       </label>
     );
   }
@@ -166,14 +231,18 @@ self.cssName = 'mdl-checkbox';
 self.propTypes = {
   "id": PropTypes.string.isRequired,
   "className": PropTypes.string.isRequired,
-  "checked": PropTypes.bool.isRequired,
+  "checked": PropTypes.bool,
+  "defaultChecked": PropTypes.bool,
+  "name": PropTypes.string,
+  "value": PropTypes.string,
+  "disabled": PropTypes.bool.isRequired,
   "ripple": PropTypes.bool.isRequired,
   "onChange": PropTypes.func,
   "children": PropTypes.any.isRequired
 };
 self.defaultProps = {
   "className": "",
-  "checked": false,
+  "disabled": false,
   "ripple": false,
   "children": []
 };

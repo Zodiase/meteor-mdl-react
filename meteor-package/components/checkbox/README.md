@@ -7,7 +7,11 @@ All available options
 <MaterialCheckbox
     {String} id
     {String} [className=""]
-    {Boolean} [checked=false]
+    {Boolean} [checked]
+    {Boolean} [defaultChecked]
+    {String} [name]
+    {String} [value]
+    {Boolean} [disabled=false]
     {Boolean} [ripple=false]
     {Function} [onChange]
 >
