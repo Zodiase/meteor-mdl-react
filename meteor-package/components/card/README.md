@@ -29,11 +29,11 @@ A card (no shadow) with a title, image, text, and action.
 ```HTML
 <MaterialCard>
   <MaterialCard.Title>
-     <MaterialCard.TitleText>Auckland Sky Tower<br>Auckland, New Zealand</MaterialCard.TitleText>
+     <MaterialCard.TitleText>Auckland Sky Tower<br />Auckland, New Zealand</MaterialCard.TitleText>
   </MaterialCard.Title>
   <MaterialCard.Media>
     <img src="skytower.jpg" width="173" height="157" border="0" alt=""
-     style="padding:10px;">
+     style={{padding: "10px"}} />
   </MaterialCard.Media>
   <MaterialCard.Text>
   The Sky Tower is an observation and telecommunications tower located in Auckland,
@@ -71,7 +71,7 @@ Card (level-3 shadow) with an image, caption, and text.
 <MaterialCard className="mdl-shadow--4dp">
   <MaterialCard.Media>
     <img src="skytower.jpg" width="173" height="157" border="0"
-      alt="" style="padding:10px;">
+      alt="" style={{padding: "10px"}} />
   </MaterialCard.Media>
   <MaterialCard.Text>
     Auckland Sky Tower, taken March 24th, 2014
