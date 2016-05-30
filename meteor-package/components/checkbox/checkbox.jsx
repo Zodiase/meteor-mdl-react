@@ -54,6 +54,25 @@ class MaterialCheckbox extends Component {
   }
 
   /**
+   * Callback when the checkbox input is toggled.
+   * @param {Object} event
+   */
+  _onToggleChecked(event) {
+    if (this.state.isControlled) {
+      // If controlled, prevent default (boundInputOnChange).
+    } else {
+      // If not controlled, maintain internal state.
+      const checked_next = event.target.checked;
+      this.setState({
+        inputChecked: checked_next
+      });
+
+      // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/checkbox/checkbox.js#L251}
+      this.boundInputOnChange(event);
+    }
+  }
+
+  /**
    * Upgrade MDL Component.
    */
   _upgrade() {
@@ -142,20 +161,7 @@ class MaterialCheckbox extends Component {
         return this.state.inputOnChange;
       },
       // If the former function prevents default, this won't run.
-      (event) => {
-        if (this.state.isControlled) {
-          // If controlled, prevent default.
-        } else {
-          // If not controlled, maintain internal state.
-          const checked_next = event.target.checked;
-          this.setState({
-            inputChecked: checked_next
-          });
-
-          // @see {@link https://github.com/google/material-design-lite/blob/v1.1.3/src/checkbox/checkbox.js#L251}
-          this.boundInputOnChange(event);
-        }
-      }
+      this._onToggleChecked.bind(this)
     );
   }
 
