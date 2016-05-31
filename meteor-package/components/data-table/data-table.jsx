@@ -514,7 +514,7 @@ class RealRows extends Rows {
               rawValue = item[col.field],
               displayValue = (typeof col.formatter === 'function')
                              ? col.formatter(rawValue, col.field, item)
-                             : rawValue;
+                             : String(rawValue);
 
         rowColumns.push(
           <td key={`col_${index}`}
