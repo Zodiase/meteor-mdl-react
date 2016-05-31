@@ -404,6 +404,7 @@ self.propTypes = {
 };
 self.defaultProps = {
   "className": "",
+  "data": [],
   "selectable": false,
   "ripple": false,
   "children": []
