@@ -13,151 +13,238 @@ export default (createContainer) => {
 
     it("should render and then find the element", (done) => {
       const elementId = Meteor.uuid();
+      let component = null;
 
       render(React.createElement(MaterialCheckbox, {
-        id: elementId
+        id: elementId,
+        ref: (ref) => {component = ref}
       }), createContainer(), () => {
+        expect(component).to.exist;
+        expect(component.element).to.be.instanceof(HTMLElement);
+
+        expect(component.element.id).to.equal(elementId);
         const element = document.getElementById(elementId);
-        expect(element).to.not.be.null;
+        expect(element).to.equal(component.element);
+
         done();
       });
     });
 
     it("should render with correct label text", (done) => {
-      const elementId = Meteor.uuid(),
-            randomButtonText = Meteor.uuid();
+      const randomButtonText = Meteor.uuid();
+      let component = null;
 
       render(React.createElement(MaterialCheckbox, {
-        id: elementId
+        id: Meteor.uuid(),
+        ref: (ref) => {component = ref}
       }, randomButtonText), createContainer(), () => {
-        const element = document.getElementById(elementId);
-        const labelElement = element.querySelector(`.mdl-checkbox__label`);
-        expect(labelElement.textContent).to.equal(randomButtonText);
+        expect(component).to.exist;
+        expect(component.labelElement).to.be.instanceof(HTMLElement);
+
+        expect(component.labelElement.textContent).to.equal(randomButtonText);
+
         done();
       });
     });
 
     it("should render with correct class names", (done) => {
-      const elementId = Meteor.uuid(),
-            randomClassNames = [
+      const randomClassNames = [
               Meteor.uuid(),
               Meteor.uuid()
             ];
+      let component = null;
 
       render(React.createElement(MaterialCheckbox, {
-        id: elementId,
-        className: randomClassNames.join(' ')
+        id: Meteor.uuid(),
+        className: randomClassNames.join(' '),
+        ref: (ref) => {component = ref}
       }, 'class names'), createContainer(), () => {
-        const element = document.getElementById(elementId);
+        expect(component).to.exist;
+        expect(component.element).to.be.instanceof(HTMLElement);
+
         randomClassNames.forEach((name) => {
-          expect(element.classList.contains(name)).to.be.true;
+          expect(component.element.classList.contains(name)).to.be.true;
         });
+
         done();
       });
     });
 
-    it("should render as checked", (done) => {
-      const elementId = Meteor.uuid();
-      const inputId = `${elementId}__input`;
+    it("should render as uncontrolled checked", (done) => {
+      let component = null;
+      const checked_prev = true;
 
       render(React.createElement(MaterialCheckbox, {
-        id: elementId,
-        checked: true
+        id: Meteor.uuid(),
+        defaultChecked: checked_prev,
+        ref: (ref) => {component = ref}
       }, 'checked'), createContainer(), () => {
-        const element = document.getElementById(elementId);
-        const inputElement = document.getElementById(inputId);
-        expect(inputElement.checked).to.be.true;
+        expect(component).to.exist;
+        expect(component.inputElement).to.be.instanceof(HTMLElement);
+
+        expect(component.inputElement.checked).to.equal(checked_prev);
+        component.inputElement.click();
+        expect(component.inputElement.checked).to.equal(!checked_prev);
+
         done();
       });
+    });
+
+    it("should render as controlled checked", (done) => {
+      let component = null;
+      const checked_prev = true;
+
+      render(React.createElement(MaterialCheckbox, {
+        id: Meteor.uuid(),
+        checked: checked_prev,
+        ref: (ref) => {component = ref}
+      }, 'checked'), createContainer(), () => {
+        expect(component).to.exist;
+        expect(component.inputElement).to.be.instanceof(HTMLElement);
+
+        expect(component.inputElement.checked).to.equal(checked_prev);
+        component.inputElement.click();
+        expect(component.inputElement.checked).to.equal(checked_prev);
+
+        done();
+      });
+    });
+
+    it("should throw error when rendered as both controlled and uncontrolled", () => {
+      expect(() => {
+        render(React.createElement(MaterialCheckbox, {
+          id: Meteor.uuid(),
+          defaultChecked: true,
+          checked: true
+        }), createContainer());
+      }).to.throw(Error);
     });
 
     it("should render with ripple", (done) => {
-      const elementId = Meteor.uuid();
+      let component = null;
 
       render(React.createElement(MaterialCheckbox, {
-        id: elementId,
-        ripple: true
+        id: Meteor.uuid(),
+        ripple: true,
+        ref: (ref) => {component = ref}
       }, 'ripple'), createContainer(), () => {
-        const element = document.getElementById(elementId);
-        const rippleElement = element.querySelector(`.${MaterialRipple.prototype.CssClasses_.RIPPLE}`);
+        expect(component).to.exist;
+        expect(component.element).to.be.instanceof(HTMLElement);
+
+        const rippleElement = component.element.querySelector(`.${MaterialRipple.prototype.CssClasses_.RIPPLE}`);
         expect(rippleElement).to.be.instanceof(HTMLElement);
+
         done();
       });
     });
 
-    it("should be able to toggle checked state", (done) => {
-      const elementId = Meteor.uuid();
-      const inputId = `${elementId}__input`;
+    it("should render as disabled", (done) => {
+      let component = null;
 
       render(React.createElement(MaterialCheckbox, {
-        id: elementId
-      }, 'toggle'), createContainer(), () => {
-        const element = document.getElementById(elementId);
-        const inputElement = document.getElementById(inputId);
-        const oldState = inputElement.checked;
+        id: Meteor.uuid(),
+        disabled: true,
+        ref: (ref) => {component = ref}
+      }, 'checked'), createContainer(), () => {
+        expect(component).to.exist;
+        expect(component.inputElement).to.be.instanceof(HTMLElement);
 
-        element.click();
+        const checked = component.inputElement.checked;
 
-        expect(inputElement.checked).to.be.equal(!oldState);
+        component.inputElement.click();
+        expect(component.inputElement.checked).to.equal(checked);
+
         done();
       });
     });
 
     it("should handle onChange", (done) => {
-      const elementId = Meteor.uuid();
-      let changed = false;
+      let component = null;
+      const checked_prev = false;
+      let changed = checked_prev;
 
       render(React.createElement(MaterialCheckbox, {
-        id: elementId,
+        id: Meteor.uuid(),
         onChange: () => {
-          changed = true;
-        }
+          changed = !changed;
+        },
+        ref: (ref) => {component = ref}
       }, 'onChange'), createContainer(), () => {
-        const element = document.getElementById(elementId);
-        element.click();
-        expect(changed).to.be.true;
+        expect(component).to.exist;
+        expect(component.inputElement).to.be.instanceof(HTMLElement);
+
+        component.inputElement.click();
+        expect(changed).to.equal(!checked_prev);
+
         done();
       });
     });
 
     it("should be able to prevent default in onChange", (done) => {
-      const elementId = Meteor.uuid();
-      const inputId = `${elementId}__input`;
-      let checked = false;
+      let component = null;
 
       render(React.createElement(MaterialCheckbox, {
-        id: elementId,
-        checked: checked,
+        id: Meteor.uuid(),
         onChange: (event) => {
           event.preventDefault();
-        }
+        },
+        ref: (ref) => {component = ref}
       }, 'prevent default'), createContainer(), () => {
-        const element = document.getElementById(elementId);
-        const inputElement = document.getElementById(inputId);
+        expect(component).to.exist;
+        expect(component.inputElement).to.be.instanceof(HTMLElement);
 
-        element.click();
-        expect(inputElement.checked).to.be.equal(checked);
+        const checked = component.inputElement.checked;
+
+        component.inputElement.click();
+
+        expect(component.inputElement.checked).to.equal(checked);
+
         done();
       });
     });
 
     it("should be able to prevent default in onChange by returning false", (done) => {
-      const elementId = Meteor.uuid();
-      const inputId = `${elementId}__input`;
-      let checked = false;
+      let component = null;
 
       render(React.createElement(MaterialCheckbox, {
-        id: elementId,
-        checked: checked,
+        id: Meteor.uuid(),
         onChange: (event) => {
           return false;
-        }
-      }, 'return false'), createContainer(), () => {
-        const element = document.getElementById(elementId);
-        const inputElement = document.getElementById(inputId);
+        },
+        ref: (ref) => {component = ref}
+      }, 'prevent default'), createContainer(), () => {
+        expect(component).to.exist;
+        expect(component.inputElement).to.be.instanceof(HTMLElement);
 
-        element.click();
-        expect(inputElement.checked).to.be.equal(checked);
+        const checked = component.inputElement.checked;
+
+        component.inputElement.click();
+
+        expect(component.inputElement.checked).to.equal(checked);
+
+        done();
+      });
+    });
+
+    it("should not trigger onChange when rendered as disabled", (done) => {
+      let component = null;
+      const checked_prev = false;
+      let changed = checked_prev;
+
+      render(React.createElement(MaterialCheckbox, {
+        id: Meteor.uuid(),
+        disabled: true,
+        onChange: () => {
+          changed = !changed;
+        },
+        ref: (ref) => {component = ref}
+      }, 'onChange'), createContainer(), () => {
+        expect(component).to.exist;
+        expect(component.inputElement).to.be.instanceof(HTMLElement);
+
+        component.inputElement.click();
+        expect(changed).to.equal(checked_prev);
+
         done();
       });
     });
