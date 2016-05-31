@@ -238,6 +238,10 @@ class MaterialDataTable extends Component {
     this.state = this._getStateFromProps(props);
   }
 
+  get element() {
+    return this.element_;
+  }
+
   /**
    * Returns the data source.
    * @returns {Array.<Object>}
