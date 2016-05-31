@@ -294,9 +294,6 @@ class MaterialDataTable extends Component {
     // Ensure children is an array.
     children = makeArray(children);
 
-    // Reset references.
-    this.element_ = null;
-
     // Need to find the rows and extract the columns.
     let rowsObj = null;
     const columns = [];
