@@ -361,10 +361,12 @@ class MaterialDataTable extends Component {
     }
 
     columns.forEach((col, index) => {
+      const classList = getClassList(self.Column, col);
+
       headerColumns.push(
-        <th {...col}
-          key={`col_${index}`}
-        />
+        <th key={`col_${index}`}
+          className={classList.join(' ')}
+        >{col.children}</th>
       );
     });
 
