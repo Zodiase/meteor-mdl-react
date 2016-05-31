@@ -80,7 +80,10 @@ Helers = {
    *        This will only be executed when the handler didn't prevent default.
    */
   handleExtraHandler (getHandler, callback) {
-    return (event) => {
+    /**
+     * @param {Object} event - First argument must be the event.
+     */
+    return function (event) {
       /*
        * Handle `onChange` parameter by executing it first if possible.
        * If it called `.preventDefault()` or returned `false`, do nothing.
@@ -88,7 +91,7 @@ Helers = {
       let defaultPrevented = false;
       const handler = getHandler();
       if (typeof handler === 'function') {
-        const returnValue = handler(event);
+        const returnValue = handler.apply(null, arguments);
 
         if (event.defaultPrevented || returnValue === false) {
           defaultPrevented = true;
@@ -98,7 +101,7 @@ Helers = {
         return true;
       }
 
-      callback(event);
+      callback.apply(null, arguments);
     };
   }
 };
