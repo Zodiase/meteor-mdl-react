@@ -513,7 +513,7 @@ class RealRows extends Rows {
         const classList = getClassList(self.Column, col),
               rawValue = item[col.field],
               displayValue = (typeof col.formatter === 'function')
-                             ? col.formatter(rawValue)
+                             ? col.formatter(rawValue, col.field, item)
                              : rawValue;
 
         rowColumns.push(
