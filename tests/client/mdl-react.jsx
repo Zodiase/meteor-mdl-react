@@ -9,6 +9,7 @@ const {
   MaterialButton,
   MaterialCard,
   MaterialCheckbox,
+  MaterialDataTable,
   MaterialLayout,
   MaterialRipple,
   MaterialSpinner,
@@ -17,6 +18,8 @@ const {
 } = MDlReact;
 
 Meteor.startup(() => {
+
+  window.React = React;
 
   const $renderContainer = $('<div id="render-container">').appendTo(document.body);
 
@@ -87,12 +90,251 @@ Meteor.startup(() => {
 
   render(
     <div>
-      <MaterialCheckbox id="checkbox-not-checked">Not Checked</MaterialCheckbox>
-      <MaterialCheckbox id="checkbox-checked" checked>Checked</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-default-not-checked">Uncontrolled Not Checked</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-default-checked" defaultChecked={true}>Uncontrolled Checked</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-default-checked-ripple" defaultChecked={true} ripple>Uncontrolled Checked Ripple</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-default-checked-disabled" defaultChecked={true} disabled>Uncontrolled Checked Disabled</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-default-checked-disabled-ripple" defaultChecked={true} disabled ripple>Uncontrolled Checked Disabled Ripple</MaterialCheckbox>
+
+      <MaterialCheckbox id="checkbox-not-checked" checked={false}>Controlled Not Checked</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-checked" checked={true}>Controlled Checked</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-checked-ripple" checked={true} ripple>Controlled Checked Ripple</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-checked-disabled" checked={true} disabled>Controlled Checked Disabled</MaterialCheckbox>
+      <MaterialCheckbox id="checkbox-checked-disabled-ripple" checked={true} disabled ripple>Controlled Checked Disabled Ripple</MaterialCheckbox>
+
       <MaterialCheckbox id="checkbox-ripple" ripple>Ripple Checkbox</MaterialCheckbox>
+
+      {
+        // MDL Example
+      }
       <MaterialCheckbox id="chkbox1" ripple>Enable AutoSave</MaterialCheckbox>
     </div>
   , createContainer('Checkboxes'));
+
+  render(
+    <div>
+      <MaterialDataTable
+        id="datatable-non-selectable"
+        data={[
+          {
+            _id: '1',
+            value: Meteor.uuid()
+          },
+          {
+            _id: '2',
+            foo: '2_foo',
+            value: Meteor.uuid()
+          },
+          {
+            _id: '3',
+            foo: '3_foo',
+            bar: '3_bar',
+            value: Meteor.uuid()
+          }
+        ]}
+      >
+
+        <MaterialDataTable.Rows>
+
+          <MaterialDataTable.Column
+            field="foo"
+          >Column Foo</MaterialDataTable.Column>
+
+          <MaterialDataTable.Column
+            field="bar"
+          >Column Bar</MaterialDataTable.Column>
+
+          <MaterialDataTable.Column
+            field="value"
+            nonNumeric
+          >Column Non-Numeric</MaterialDataTable.Column>
+
+        </MaterialDataTable.Rows>
+
+      </MaterialDataTable>
+    </div>
+  , createContainer('Non-selectable DataTable'));
+
+  const tableData = [
+          {
+            _id: '1',
+            value: Meteor.uuid()
+          },
+          {
+            _id: '2',
+            foo: '2_foo',
+            value: Meteor.uuid()
+          },
+          {
+            _id: '3',
+            foo: '3_foo',
+            bar: '3_bar',
+            value: Meteor.uuid()
+          }
+        ],
+        tableSelection = ['1', '3'];
+
+  render(
+    <div>
+      <MaterialDataTable
+        id="datatable-selectable"
+        data={tableData}
+        selectable
+        ripple
+        onSelectRow={function (event, docId) {
+          console.info('onSelectRow', docId);
+        }}
+        onDeselectRow={function (event, docId) {
+          console.info('onDeselectRow', docId);
+        }}
+        onSelectionChange={function (event, selection) {
+          console.info('onSelectionChange', selection);
+        }}
+      >
+
+        <MaterialDataTable.Rows>
+
+          <MaterialDataTable.Column
+            field="foo"
+          >Column Foo</MaterialDataTable.Column>
+
+          <MaterialDataTable.Column
+            field="bar"
+          >Column Bar</MaterialDataTable.Column>
+
+          <MaterialDataTable.Column
+            field="value"
+            nonNumeric
+          >Column Non-Numeric</MaterialDataTable.Column>
+
+        </MaterialDataTable.Rows>
+
+      </MaterialDataTable>
+    </div>
+  , createContainer('Uncontrolled Selectable DataTable'));
+
+  render(
+    <div>
+      <MaterialDataTable
+        id="datatable-selectable-default-selection"
+        data={tableData}
+        selectable
+        ripple
+        defaultSelection={tableSelection}
+        onSelectRow={function (event, docId) {
+          console.info('onSelectRow', docId);
+        }}
+        onDeselectRow={function (event, docId) {
+          console.info('onDeselectRow', docId);
+        }}
+        onSelectionChange={function (event, selection) {
+          console.info('onSelectionChange', selection);
+        }}
+      >
+
+        <MaterialDataTable.Rows>
+
+          <MaterialDataTable.Column
+            field="foo"
+          >Column Foo</MaterialDataTable.Column>
+
+          <MaterialDataTable.Column
+            field="bar"
+          >Column Bar</MaterialDataTable.Column>
+
+          <MaterialDataTable.Column
+            field="value"
+            nonNumeric
+          >Column Non-Numeric</MaterialDataTable.Column>
+
+        </MaterialDataTable.Rows>
+
+      </MaterialDataTable>
+    </div>
+  , createContainer('Uncontrolled Selectable DataTable with Default Selection'));
+
+  render(
+    <div>
+      <MaterialDataTable
+        id="datatable-selectable-selection"
+        data={tableData}
+        selectable
+        ripple
+        selection={tableSelection}
+        onSelectRow={function (event, docId) {
+          console.info('onSelectRow', docId);
+        }}
+        onDeselectRow={function (event, docId) {
+          console.info('onDeselectRow', docId);
+        }}
+        onSelectionChange={function (event, selection) {
+          console.info('onSelectionChange', selection);
+        }}
+      >
+
+        <MaterialDataTable.Rows>
+
+          <MaterialDataTable.Column
+            field="foo"
+          >Column Foo</MaterialDataTable.Column>
+
+          <MaterialDataTable.Column
+            field="bar"
+          >Column Bar</MaterialDataTable.Column>
+
+          <MaterialDataTable.Column
+            field="value"
+            nonNumeric
+          >Column Non-Numeric</MaterialDataTable.Column>
+
+        </MaterialDataTable.Rows>
+
+      </MaterialDataTable>
+    </div>
+  , createContainer('Controlled Selectable DataTable'));
+
+  render(
+    <div>
+      <MaterialDataTable
+        id="datatable-selectable-disabled"
+        data={tableData}
+        selectable
+        ripple
+        onSelectRow={function (event, docId) {
+          console.info('onSelectRow', docId);
+          if (docId === '2') {
+            console.warn('Item disabled.');
+            return false;
+          }
+        }}
+        onDeselectRow={function (event, docId) {
+          console.info('onDeselectRow', docId);
+        }}
+        onSelectionChange={function (event, selection) {
+          console.info('onSelectionChange', selection);
+        }}
+      >
+
+        <MaterialDataTable.Rows>
+
+          <MaterialDataTable.Column
+            field="foo"
+          >Column Foo</MaterialDataTable.Column>
+
+          <MaterialDataTable.Column
+            field="bar"
+          >Column Bar</MaterialDataTable.Column>
+
+          <MaterialDataTable.Column
+            field="value"
+            nonNumeric
+          >Column Non-Numeric</MaterialDataTable.Column>
+
+        </MaterialDataTable.Rows>
+
+      </MaterialDataTable>
+    </div>
+  , createContainer('Uncontrolled Selectable DataTable with the Second Row Disabled'));
 
   render(
     <MaterialTabs defaultTabId="p2" ripple>
