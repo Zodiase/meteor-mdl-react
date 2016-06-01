@@ -13,6 +13,9 @@ Components = {};
 
 // Helpers
 Helers = {
+  uuid () {
+    return Meteor.uuid();
+  },
   makeArray (val) {
     return (typeof val === 'undefined') ? [] : (Array.isArray(val) ? val : [val]);
   },

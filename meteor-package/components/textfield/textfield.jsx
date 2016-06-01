@@ -16,7 +16,7 @@
  */
 
 let { Component, PropTypes } = React;
-let { getClassList, handleExtraHandler, makeArray, registerClassNameFlags } = Helers;
+let { uuid, getClassList, handleExtraHandler, makeArray, registerClassNameFlags } = Helers;
 
 /**
  * MaterialTextfield
@@ -46,6 +46,8 @@ class MaterialTextfield extends Component {
 
   constructor(props) {
     super(props);
+
+    this._uuid = uuid();
 
     this.state = this._getStateFromProps(props);
 
@@ -125,7 +127,7 @@ class MaterialTextfield extends Component {
       ...inputProps
     } = this.props;
 
-    const inputId = `${id}__input`;
+    const inputId = (typeof id === 'undefined') ? `${self.cssName}__input-${this._uuid}` : `${id}__input`;
 
     let inputElement = null;
     if (multiline) {
@@ -224,7 +226,7 @@ const self = Components.MaterialTextfield = MaterialTextfield;
 self.cssName = 'mdl-textfield';
 self.propTypes = {
   "className": PropTypes.string,
-  "id": PropTypes.string.isRequired,
+  "id": PropTypes.string,
   "type": PropTypes.oneOf([
     // Pickers
     'color', 'date', 'datetime-local', 'month', 'number', 'time', 'week',
